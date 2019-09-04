@@ -1,166 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
   
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Samples - Coherence Operator</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="None">
-    
-    
-    <link rel="shortcut icon" href="../img/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Coherence Operator</title>
-    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
-    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
-    <link href="../css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/highlight.css">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/bootstrap-3.3.7.min.js"></script>
-    <script src="../js/highlight.pack.js"></script>
-    
-      <script src="../js/elasticlunr.min.js"></script>
-    
-    <base target="_top">
-    <script>
-      var base_url = '..';
-      var is_top_frame = (window === window.parent);
-        
-        var pageToc = [
-          {title: "Samples", url: "#_top", children: [
-          ]},
-          {title: "Table of Contents", url: "#table-of-contents", children: [
-          ]},
-          {title: "Get Started", url: "#get-started", children: [
-              {title: "Check Runtime Prerequisites", url: "#check-runtime-prerequisites" },
-              {title: "Check JDK 8 and Maven Installation", url: "#check-jdk-8-and-maven-installation" },
-              {title: "Install Coherence into Local Maven Repository", url: "#install-coherence-into-local-maven-repository" },
-              {title: "Create the Sample Namespace", url: "#create-the-sample-namespace" },
-              {title: "Create a Secret", url: "#create-a-secret" },
-              {title: "Clone the GitHub Repository", url: "#clone-the-github-repository" },
-              {title: "Install the Coherence Operator", url: "#install-the-coherence-operator" },
-              {title: "Enable Prometheus and Log Capture", url: "#enable-prometheus-and-log-capture" },
-              {title: "Check Operator Status", url: "#check-operator-status" },
-          ]},
-          {title: "List Of Samples", url: "#list-of-samples", children: [
-          ]},
-          {title: "Troubleshooting Tips", url: "#troubleshooting-tips", children: [
-              {title: "Coherence Cluster pods never reach ready \"1/1\"", url: "#coherence-cluster-pods-never-reach-ready-11" },
-              {title: "Error: ImagePullBackOff after installing Operator or coherence", url: "#error-imagepullbackoff-after-installing-operator-or-coherence" },
-              {title: "Error: configmaps \"coherence-internal-config\" not found", url: "#error-configmaps-coherence-internal-config-not-found" },
-              {title: "Unable to delete pods when using log capture", url: "#unable-to-delete-pods-when-using-log-capture" },
-              {title: "Receive Error 'no matches for kind \"Prometheus\"'", url: "#receive-error-no-matches-for-kind-prometheus" },
-          ]},
-          {title: "Accessing UI endpoints", url: "#accessing-ui-endpoints", children: [
-              {title: "Access Grafana", url: "#access-grafana" },
-              {title: "Access Kibana", url: "#access-kibana" },
-              {title: "Access Prometheus", url: "#access-prometheus" },
-          ]},
-          {title: "Run Samples Integration Tests", url: "#run-samples-integration-tests", children: [
-          ]},
-        ];
-
-    </script>
-    <script src="../js/base.js"></script> 
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Samples";
+    var mkdocs_page_input_path = "samples\\README.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
 </head>
 
-<body>
-<script>
-if (is_top_frame) { $('body').addClass('wm-top-page'); }
-</script>
+<body class="wy-body-for-nav" role="document">
 
-<nav class="navbar wm-page-top-frame">
-  <div class="container-fluid wm-top-container">
-    
-    <div class="wm-top-tool pull-right wm-vcenter">
-      <form class="dropdown wm-vcentered" id="wm-search-form" action="../search.html">
-        
-        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
-          ><i class="fa fa-search" aria-hidden="true"></i></button>
-
-        <div class="input-group input-group-sm wm-top-search">
-          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
-          <span class="input-group-btn" role="search">
-            
-            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
-            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
-            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-          </span>
-        </div>
-      </form>
-    </div>
+  <div class="wy-grid-for-nav">
 
     
-    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
-      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
-    </div>
-
-    
-    
-
-    
-    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
-      
-      <div class="wm-top-title">
-        Coherence Operator<br>
-        
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Coherence Operator</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
       </div>
-    </a>
-  </div>
-</nav>
 
-  <div id="main-content" class="wm-page-top-frame">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../quickstart/">Quick Start</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../user-guide/">User Guide</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Samples</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#samples">Samples</a></li>
     
-<nav class="wm-toc-pane">
-  
-  <ul class="wm-toctree">
-        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
-</li>
-        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
-</li>
-        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
-</li>
-        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
-</li>
-  </ul>
-</nav>
 
-    <div class="wm-content-pane">
-      <iframe class="wm-article" name="article"></iframe>
-    </div>
-  </div>
-
-<div class="container-fluid wm-page-content">
-  <a name="_top"></a>
+    <li class="toctree-l2"><a href="#table-of-contents">Table of Contents</a></li>
     
 
+    <li class="toctree-l2"><a href="#get-started">Get Started</a></li>
     
+        <ul>
+        
+            <li><a class="toctree-l3" href="#check-runtime-prerequisites">Check Runtime Prerequisites</a></li>
+        
+            <li><a class="toctree-l3" href="#check-jdk-8-and-maven-installation">Check JDK 8 and Maven Installation</a></li>
+        
+            <li><a class="toctree-l3" href="#install-coherence-into-local-maven-repository">Install Coherence into Local Maven Repository</a></li>
+        
+            <li><a class="toctree-l3" href="#create-the-sample-namespace">Create the Sample Namespace</a></li>
+        
+            <li><a class="toctree-l3" href="#create-a-secret">Create a Secret</a></li>
+        
+            <li><a class="toctree-l3" href="#clone-the-github-repository">Clone the GitHub Repository</a></li>
+        
+            <li><a class="toctree-l3" href="#install-the-coherence-operator">Install the Coherence Operator</a></li>
+        
+            <li><a class="toctree-l3" href="#enable-prometheus-and-log-capture">Enable Prometheus and Log Capture</a></li>
+        
+            <li><a class="toctree-l3" href="#check-operator-status">Check Operator Status</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#list-of-samples">List Of Samples</a></li>
+    
+
+    <li class="toctree-l2"><a href="#troubleshooting-tips">Troubleshooting Tips</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#coherence-cluster-pods-never-reach-ready-11">Coherence Cluster pods never reach ready "1/1"</a></li>
+        
+            <li><a class="toctree-l3" href="#error-imagepullbackoff-after-installing-operator-or-coherence">Error: ImagePullBackOff after installing Operator or coherence</a></li>
+        
+            <li><a class="toctree-l3" href="#error-configmaps-coherence-internal-config-not-found">Error: configmaps "coherence-internal-config" not found</a></li>
+        
+            <li><a class="toctree-l3" href="#unable-to-delete-pods-when-using-log-capture">Unable to delete pods when using log capture</a></li>
+        
+            <li><a class="toctree-l3" href="#receive-error-no-matches-for-kind-prometheus">Receive Error 'no matches for kind "Prometheus"'</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#accessing-ui-endpoints">Accessing UI endpoints</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#access-grafana">Access Grafana</a></li>
+        
+            <li><a class="toctree-l3" href="#access-kibana">Access Kibana</a></li>
+        
+            <li><a class="toctree-l3" href="#access-prometheus">Access Prometheus</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#run-samples-integration-tests">Run Samples Integration Tests</a></li>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Coherence Operator</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
     
       
     
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav">
-      <a href="../user-guide/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../user-guide/" class="btn btn-xs btn-link">
-        User Guide
-      </a>
-    </div>
-    
-  </div>
-
-    
-
-    <h1 id="samples">Samples</h1>
+    <li>Samples</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="samples">Samples</h1>
 <p>The samples provide demonstrations of how to accomplish common tasks. These samples are provided for educational and demonstration purposes only; they are not intended to be used in production deployments or to be depended upon to create production environments.</p>
 <p>Read through the samples, understand how they work, and then customize them to your requirements.</p>
 <blockquote>
@@ -595,37 +605,53 @@ operator with Oracle Coherence 12.2.1.4 version.</p>
 <p><a href="http://127.0.0.1:9090/">http://127.0.0.1:9090/</a></p>
 <h1 id="run-samples-integration-tests">Run Samples Integration Tests</h1>
 <p>Refer to <a href="developer/">Developer Guide</a> for more information about how to run the samples integration tests.</p>
-
-  <br>
-    
-
-    
-    
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-    
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav">
-      <a href="../user-guide/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../user-guide/" class="btn btn-xs btn-link">
-        User Guide
-      </a>
+      
+        <a href="../user-guide/" class="btn btn-neutral" title="User Guide"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
     </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
     
   </div>
 
-    <br>
-</div>
-
-<footer class="col-md-12 wm-page-content">
-  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../user-guide/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
 
 </body>
 </html>
+
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-09-04 11:12:47
+Build Date UTC : 2019-09-04 11:29:26
 -->
