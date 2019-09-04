@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Configure Custom Logger and View in Kibana", url: "#_top", children: [
+              {title: "Sample files", url: "#sample-files" },
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Verify Kibana Logs", url: "#verify-kibana-logs" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="configure-custom-logger-and-view-in-kibana">Configure Custom Logger and View in Kibana</h1>
+<p>The Coherence Operator manages data logging through the Elasticsearch, Fluentd, and Kibana (EFK) stack.</p>
+<p>This sample shows how to:
+* Configure your own application logger named <code>cloud</code>
+* Capture the logs through Fluentd
+* Pass the logs into Elasticsearch
+* Display the logs in Kibana</p>
+<p>A server-side Interceptor updates values to upper case and writes log messages to the <code>cloud</code> logger.</p>
+<p><a href="../">Return to Logging samples</a> / <a href="../../">Return to Coherence Operator samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="sample-files">Sample files</h2>
+<ul>
+<li>
+<p><a href="src/main/docker/Dockerfile">src/main/docker/Dockerfile</a> - Dockerfile for creating side-car image from which configuration
+  and server side JARs are read from at pod startup.</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/custom-logging.properties">src/main/resources/conf/custom-logging.properties</a> - Custom <code>logging.properties</code> file with <code>cloud</code> logger.</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/fluentd-cloud.conf">src/main/resources/conf/fluentd-cloud.conf</a> - Fluentd configuration for <code>cloud</code> logger.</p>
+</li>
+<li>
+<p><a href="src/main/java/com/oracle/coherence/examples/CustomFileHandler.java">src/main/java/com/oracle/coherence/examples/CustomFileHandler.java</a> - Logger for custom <code>sample</code> logger.</p>
+</li>
+<li>
+<p><a href="src/main/java/com/oracle/coherence/examples/UppercaseLoggingInterceptor.java">src/main/java/com/oracle/coherence/examples/UppercaseLoggingInterceptor.java</a> - Interceptor to update values to upper case and use custom logger.</p>
+</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ensure you have already installed the Coherence Operator with <code>--set logCaptureEnabled=true</code> using the instructions <a href="../../../#install-the-coherence-operator">here</a>.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Change to the <code>samples/operator/logging/custom-logs</code> directory and ensure you have your Maven build environment set for JDK 8 and build the project:</li>
+</ol>
+<p><code>bash
+   mvn clean install -P docker</code></p>
+<p>The Docker image is built with the cache and logging
+   configuration, and compiled Java classes.</p>
+<blockquote>
+<p><strong>Note:</strong> If you are using a remote Kubernetes cluster, you need to push the built Docker image to your repository accessible to that cluster. Also, you need to prefix the image name in the <code>helm install</code> command.</p>
+</blockquote>
+<ol>
+<li>Install the Coherence cluster</li>
+</ol>
+<p>The following additional options are required:</p>
+<ul>
+<li>
+<p><code>--set logCaptureEnabled=true</code> - Enables log catpure.</p>
+</li>
+<li>
+<p><code>--set userArtifacts.image=custom-logger-sample:1.0.0-SNAPSHOT</code> - Sets custom image with configuration and classes.  If you are using a remote Kubernetes cluster, the value of this option must be the Docker image that can be pulled by the cluster.  For example, <code>mydockerid/custom-logger-samples:1.0.0-SNAPSHOT</code>.</p>
+</li>
+<li>
+<p><code>--set store.logging.configFile=custom-logging.properties</code> - Configures custom logger.</p>
+</li>
+<li>
+<p><code>--set fluentd.application.configFile=/conf/fluentd-cloud.conf</code> - Includes custom <code>fluentd.conf</code> for <code>cloud</code> logger.</p>
+</li>
+<li>
+<p><code>--set fluentd.application.tag=cloud</code> - Sets the Fluentd application tag.</p>
+</li>
+</ul>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=custom-logger-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set store.cacheConfig=storage-cache-config.xml \
+      --set prometheusoperator.enabled=false \
+      --set logCaptureEnabled=true \
+      --set userArtifacts.image=custom-logger-sample:1.0.0-SNAPSHOT \
+      --set store.logging.configFile=custom-logging.properties \
+      --set fluentd.application.configFile=/conf/fluentd-cloud.conf \
+      --set fluentd.application.tag=cloud \
+      coherence/coherence</code></p>
+<p>After the installation completes, list the pods:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   coherence-operator-7f596c6796-9v5m4   2/2     Running   0          58m
+   elasticsearch-5b5474865c-glrl8        1/1     Running   0          58m
+   kibana-f6955c4b9-f959q                1/1     Running   0          58m
+   storage-coherence-0                   2/2     Running   0          2m
+   storage-coherence-1                   2/2     Running   0          1m
+   storage-coherence-2                   2/2     Running   0          1m</code></p>
+<p>Ensure that all pods (storage-coherence-0/1/2) are running and ready.</p>
+<ol>
+<li>Port forward the Coherence proxy port on the <code>storage-coherence-0</code> pod.</li>
+</ol>
+<p><code>bash
+   $ kubectl port-forward -n sample-coherence-ns storage-coherence-0 20000:20000</code></p>
+<ol>
+<li>Connect through CohQL and execute the following command:</li>
+</ol>
+<p><code>bash
+   $ mvn exec:java</code></p>
+<p>Use the following CohQL commands to insert data into the cluster:</p>
+<p><code>sql
+   insert into 'test' key('key-1') value('value-1');
+   insert into 'test' key('key-2') value('value-2');
+   insert into 'test' key('key-3') value('value-3');
+   insert into 'test' key('key-4') value('value-4');</code></p>
+<p>Verify the data:</p>
+<p><code>sql
+   select key(), value() from 'test';
+   Results
+   ["key-4", "VALUE-4"]
+   ["key-2", "VALUE-2"]
+   ["key-1", "VALUE-1"]
+   ["key-3", "VALUE-3"]</code>    </p>
+<p>From the ouput, you can observe that the server side interceptor has changed the value to uppercase.</p>
+<ol>
+<li>Confirm that the log message can be viewed:</li>
+</ol>
+<p><code>bash
+   $ kubectl exec -it  storage-coherence-0  -n sample-coherence-ns -c coherence -- bash -c 'cat /logs/cloud*.log'</code>
+    <code>console
+   2019-04-29 04:45:03 Cloud 1.0 &lt;INFO&gt; (cluster=custom-logger-cluster, member=storage-coherence-0, thread=PartitionedCacheWorker:0x0000:5): Before, key=key-4, value=value-4
+   2019-04-29 04:45:03 Cloud 1.0 &lt;INFO&gt; (cluster=custom-logger-cluster, member=storage-coherence-0, thread=PartitionedCacheWorker:0x0000:5): Changed key=key-4 to value=VALUE-4</code></p>
+<blockquote>
+<p><strong>Note</strong>: Depending upon the data distribution, not all members show the messages.</p>
+</blockquote>
+<h2 id="verify-kibana-logs">Verify Kibana Logs</h2>
+<ol>
+<li>Access Kibana</li>
+</ol>
+<p>Access Kibana using the instructions <a href="../../../#access-kibana">here</a>.</p>
+<ol>
+<li>
+<p>Create an Index Pattern</p>
+</li>
+<li>
+<p>In Kibana, open <strong>Management</strong> and click <strong>Index Patterns</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Create index pattern</strong>.</p>
+</li>
+<li>
+<p>Set the name to <code>cloud-*</code>. This will show that this matches 1 index, such as <code>cloud-2019.04.29</code>.</p>
+</li>
+<li>
+<p>Click <strong>Next Step</strong> and select <code>@timestamp</code>  in the <strong>Time Filter field name</strong> drop-down menu and click <strong>Create index pattern</strong>.</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> It takes approximately 5 minutes for the data to reach the Elasticsearch instance.</p>
+</blockquote>
+<ol>
+<li>
+<p>View data from the <code>cloud-*</code> index pattern</p>
+</li>
+<li>
+<p>Open <strong>Discover</strong> and select <code>cloud-*</code> in the drop-down list which shows <code>coherence-cluster-*</code>.</p>
+<p><img alt="Cloud Dropdown" src="img/cloud-dropdown.png" /></p>
+</li>
+<li>
+<p>When you click <strong>Refresh</strong>, you can see the data from the custom logger.</p>
+<p><img alt="Cloud logger data" src="img/cloud-data.png" /></p>
+</li>
+</ol>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>To delete chart installed in this sample, use the following command:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<blockquote>
+<p><strong>Note</strong>: If you are using Kubernetes version 1.13.0 or oler version, then you cannot delete the pods. This is a known issue and you need to add the options <code>--force --grace-period=0</code> to force delete the pods.</p>
+<p>Refer to <a href="https://github.com/kubernetes/kubernetes/issues/45688">https://github.com/kubernetes/kubernetes/issues/45688</a>.</p>
+</blockquote>
+<p>Before starting another sample, ensure that all the pods are removed from previous sample.</p>
+<p>If you want to remove the <code>coherence-operator</code>, then use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:48
+-->

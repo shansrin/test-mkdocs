@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Monitor Coherence Services via Grafana Dashboards - Coherence Operator</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Monitor Coherence Services via Grafana Dashboards", url: "#_top", children: [
+              {title: "Install the Charts", url: "#install-the-charts" },
+              {title: "Port Forward Grafana", url: "#port-forward-grafana" },
+              {title: "Log in to Grafana", url: "#log-in-to-grafana" },
+              {title: "Navigate the Dashboards", url: "#navigate-the-dashboards" },
+              {title: "Configure your Prometheus Operator to Scrape Coherence pods", url: "#configure-your-prometheus-operator-to-scrape-coherence-pods" },
+              {title: "Troubleshoot", url: "#troubleshoot" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="monitor-coherence-services-via-grafana-dashboards">Monitor Coherence Services via Grafana Dashboards</h1>
+<p>The Coherence Operator (the "operator") includes the Prometheus Operator as an optional subchart named, <code>prometheusoperator</code>.
+To configure the Prometheus Operator and monitor Coherence services via Grafana dashboards, follow the instructions:</p>
+<blockquote>
+<p><strong>Note:</strong> Use of Prometheus and Grafana is available only when using the
+operator with Coherence 12.2.1.4.</p>
+</blockquote>
+<p>This use-case is covered in the samples. Refer to the <a href="samples/operator/metrics/enable-metrics/">samples documentation</a>.</p>
+<h2 id="install-the-charts">Install the Charts</h2>
+<p>When you install the <code>coherence-operator</code> chart, you must specify the following
+additional set value for <code>helm</code> to install the subchart, <code>prometheusoperator</code>.</p>
+<pre><code class="bash">--set prometheusoperator.enabled=true
+</code></pre>
+
+<p>All <code>coherence</code> charts installed in <code>coherence-operator</code> <code>targetNamespaces</code> are monitored by
+Prometheus. The servicemonitor, <code>&lt;releasename&gt;-coherence-service-monitor</code>
+configures Prometheus to scrape all components of <code>coherence-service</code>.</p>
+<h2 id="port-forward-grafana">Port Forward Grafana</h2>
+<p>After you install the charts, use the following script to port forward the Grafana pod:</p>
+<pre><code class="bash">#!/bin/bash
+
+trap &quot;exit&quot; INT
+
+while :
+do
+  kubectl port-forward $(kubectl get pods --selector=app=grafana -n namespace --output=jsonpath=&quot;{.items..metadata.name}&quot;) -n namespace 3000:3000
+done
+</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> Since port forwarding is sometimes unreliable, it should be used only as a development tool, and not in a production environment.</p>
+</blockquote>
+<h2 id="log-in-to-grafana">Log in to Grafana</h2>
+<p>In a browser, go to the URL, <code>http://127.0.0.1:3000/d/coh-main/coherence-dashboard-main</code> to access the main Coherence dashboard.</p>
+<p>On the Grafana login page, enter the login id, <code>admin</code> and the password, <code>prom-operator</code>.</p>
+<p>Click <code>Home</code> on the upper left corner of the page to get a list of preconfigured dashboards.
+Click <code>Coherence Dashboard Main</code>.</p>
+<h3 id="default-dashboards">Default Dashboards</h3>
+<p>There are a number of dashboards created via the import process.</p>
+<ul>
+<li>
+<p>Coherence Dashboard main for inspecting coherence cluster(s)</p>
+</li>
+<li>
+<p>Coherence Cluster Members Summary and Details</p>
+</li>
+<li>
+<p>Coherence Cluster Members Machines Summary</p>
+</li>
+<li>
+<p>Coherence Cache Summary and Details</p>
+</li>
+<li>
+<p>Coherence Services Summary and Details</p>
+</li>
+<li>
+<p>Coherence Proxy Servers Summary and Details</p>
+</li>
+<li>
+<p>Coherence Elastic Data Summary</p>
+</li>
+<li>
+<p>Coherence Cache Persistence Summary</p>
+</li>
+<li>
+<p>Coherence Http Servers Summary</p>
+</li>
+</ul>
+<h2 id="navigate-the-dashboards">Navigate the Dashboards</h2>
+<p>The Grafana dashboards created to monitor Coherence Clusters have some common UI elements and navigation patterns:</p>
+<ul>
+<li>Variables and Annotations</li>
+</ul>
+<p>At the top left of the dashboard,  <a href="https://grafana.com/docs/reference/templating/">variables</a> that are changeable and affect the
+   queries in the dashboards are displayed. Similarly, <a href="https://grafana.com/docs/reference/annotations/">annotations</a>, that
+   indicate events on the dashboard, can be enabled or disabled.</p>
+<p><img alt="Variables and Annotations" src="../img/variables-and-annotations.png" /></p>
+<p><code>ClusterName</code> is a common variable that can be used to choose the cluster to display information for.</p>
+<p><code>Show Cluster Size Changed</code> is an annotation that shows the time over which the cluster size has changed. All
+   annotations appear as a red vertical line as shown below:</p>
+<p><img alt="Show Cluster Size Changed Annotation" src="../img/annotation.png" /></p>
+<ul>
+<li>Access other dashboards</li>
+</ul>
+<p>On the right of the page, you can click <code>Available Dashboards</code> to view all available dashboards.</p>
+<p><img alt="All Dashboards" src="../img/all-dashboards.png" /></p>
+<h2 id="configure-your-prometheus-operator-to-scrape-coherence-pods">Configure your Prometheus Operator to Scrape Coherence pods</h2>
+<p>This section assumes that you do not want the coherence-operator's helm subchart,<code>prometheusoperator</code> installed.
+It provides information on how to configure what is automated by using coherence-operator helm chart parameter
+<code>prometheusoperator.enabled</code>=<code>true</code>.</p>
+<p>Refer to the Prometheus Operator documentation to understand how to configure and deploy a service monitor for
+your own Prometheus Operator installation. This section only describes the service monitor configuration as it
+relates to the Coherence helm chart.</p>
+<p>coherence-service-monitor.yaml fragment:</p>
+<pre><code>...
+spec:
+  selector:
+    matchLabels:
+      component: &quot;coherence-service&quot;
+...      
+endpoints:
+  - port: 9612
+</code></pre>
+
+<p>If the Coherence helm chart parameter <code>service.metricsHttpPort</code> is set when installing the Coherence helm chart,
+replace <code>9612</code> above with the new value.</p>
+<p>If the Coherence helm chart parameter <code>store.metrics.ssl.enabled</code> is set to <code>true</code>, then add  <code>endpoints.scheme</code> with the value of <code>https</code>
+to the <code>coherence-service-monitor.yaml</code> fragment.</p>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<h3 id="helm-install-of-coherence-operator-fails-creating-a-custom-resource-definition-crd">Helm install of <code>coherence-operator</code> fails, creating a custom resource definition (CRD)</h3>
+<p>The helm installation for <code>coherence-operator</code> fails, creating a custom resource definition (CRD). When you see this error, follow the recommendation in <a href="https://github.com/helm/charts/tree/master/stable/prometheus-operator#user-content-helm-fails-to-create-crds">Prometheus Operator: helm fails to create CRDs</a>
+to manually install the Prometheus Operator CRDs, and then install the <code>coherence-operator</code> chart with these additional set values.</p>
+<pre><code class="bash">--set prometheusoperator.enabled=true --set prometheusoperator.prometheusOperator.createCustomResource=false
+</code></pre>
+
+<h3 id="no-datasource-found">No datasource found</h3>
+<p>When you see this error, manually create a datasource by clicking <code>Create your first data source</code> on the Grafana Home page, and fill in the following fields:</p>
+<pre><code class="bash">   Name:      Prometheus
+   HTTP URL:  http://prometheus-operated.&lt;namespace&gt;.svc.cluster.local:9090
+</code></pre>
+
+<p>Ensure that this datasource is set as the default.
+Click <code>Save &amp; Test</code>.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

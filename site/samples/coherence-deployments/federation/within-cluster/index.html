@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Within a Single Kubernetes Cluster", url: "#_top", children: [
+              {title: "Sample files", url: "#sample-files" },
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="within-a-single-kubernetes-cluster">Within a Single Kubernetes Cluster</h1>
+<p>The Federated Caching feature federates cached data asynchronously across multiple geographically
+dispersed clusters. Cached data is federated across clusters to provide redundancy,
+off-site backup, and multiple points of access for application users in different
+geographical locations.</p>
+<p>This sample shows how to set up two Federated Coherence clusters within a single Kubernetes cluster.</p>
+<p>Although this is not a recommended topology, due to the co-location of the Coherence clusters, this is
+included as a sample for how to use Federation.</p>
+<blockquote>
+<p><strong>Note</strong>: To set up two Federated Coherence clusters across different Kubernetes clusters, refer to the additional information <a href="../across-clusters/">here</a>.</p>
+</blockquote>
+<p>The setup for this example uses two Coherence clusters in the same Kubernetes cluster, with the following details:</p>
+<ul>
+<li>Primary Cluster</li>
+<li>Release name: <code>cluster-1</code></li>
+<li>Cluster name: <code>PrimaryCluster</code></li>
+<li>Secondary Cluster</li>
+<li>Release name: <code>cluster-2</code></li>
+<li>Cluster name: <code>SecondaryCluster</code></li>
+</ul>
+<p><a href="../">Return to Federation samples</a> / <a href="../..">Return to Coherence Deployments samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="sample-files">Sample files</h2>
+<ul>
+<li>
+<p><a href="src/main/docker/Dockerfile">src/main/docker/Dockerfile</a> - Dockerfile for creating sidecar image from which the configuration will be read at pod startup</p>
+</li>
+<li>
+<p><a href="src/main/resources/client-cache-config.xml">src/main/resources/client-cache-config.xml</a> - Cache configuration for the extend client</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/cache-config-federation.xml">src/main/resources/conf/cache-config-federation.xml</a> - Cache configuration for Federation</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/tangosol-coherence-override-federation.xml">src/main/resources/conf/tangosol-coherence-override-federation.xml</a> - Override for Federation</p>
+</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ensure that you have installed Coherence Operator by following the instructions <a href="../../../#install-the-coherence-operator">here</a>.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Change to the <code>samples/coherence-deployments/federation/within-cluster</code> directory. Ensure you have your maven build environment set for JDK8, and build the project.</li>
+</ol>
+<p><code>bash
+   $ mvn clean install -P docker</code></p>
+<p>This builds the Docker image with the cache configuration files, with the name in the format, <code>proxy-tier-sample:${version}</code>. For example,</p>
+<p><code>bash
+   federation-within-cluster-sample:1.0.0-SNAPSHOT</code></p>
+<blockquote>
+<p><strong>Note:</strong> If you are running against a remote Kubernetes cluster, you must
+push the above image to your repository accessible to that cluster. You must also
+prefix the image name in the <code>helm</code> command, as shown below.</p>
+</blockquote>
+<ol>
+<li>Install the primary Coherence cluster, <strong>PrimaryCluster</strong>.</li>
+</ol>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name cluster-1 \
+      --set clusterSize=2 \
+      --set cluster=PrimaryCluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set store.cacheConfig=cache-config-federation.xml \
+      --set store.overrideConfig=tangosol-coherence-override-federation.xml \
+      --set store.javaOpts="-Dprimary.cluster=PrimaryCluster -Dprimary.cluster.port=40000 -Dprimary.cluster.host=cluster-1-coherence-headless -Dsecondary.cluster=SecondaryCluster -Dsecondary.cluster.port=40000 -Dsecondary.cluster.host=cluster-2-coherence-headless"  \
+      --set store.ports.federation=40000 \
+      --set userArtifacts.image=federation-within-cluster-sample:1.0.0-SNAPSHOT \
+      --set coherence.image=your-12.2.1.4.0-Coherence-image \
+      coherence/coherence</code>  </p>
+<blockquote>
+<p><strong>Note:</strong> Ensure that you replace <code>your-12.2.1.4.0-Coherence-image</code> with the appropriate Coherence 12.2.1.4.0 Docker image.</p>
+</blockquote>
+<pre><code>After the installation is complete, get the list of pods by running the following command:
+</code></pre>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   Both the cluster-1-coherence pods should be running and ready, as shown in the output:
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   cluster-1-coherence-0                 1/1     Running   0          24s
+   cluster-1-coherence-1                 1/1     Running   0          24s
+   coherence-operator-695b9456d5-bzbhl   1/1     Running   0          30m</code></p>
+<ol>
+<li>Port Forward the <strong>PrimaryCluster</strong> Coherence*Extend - Port 20000.</li>
+</ol>
+<p><code>bash
+   $ kubectl port-forward --namespace sample-coherence-ns cluster-1-coherence-0  20000:20000</code></p>
+<ol>
+<li>Install the secondary Coherence cluster, <strong>SecondaryCluster</strong>.</li>
+</ol>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name cluster-2 \
+      --set clusterSize=2 \
+      --set cluster=SecondaryCluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set store.cacheConfig=cache-config-federation.xml \
+      --set store.overrideConfig=tangosol-coherence-override-federation.xml \
+      --set store.javaOpts="-Dprimary.cluster=PrimaryCluster -Dprimary.cluster.port=40000 -Dprimary.cluster.host=cluster-1-coherence-headless -Dsecondary.cluster=SecondaryCluster -Dsecondary.cluster.port=40000 -Dsecondary.cluster.host=cluster-2-coherence-headless"  \
+      --set store.ports.federation=40000 \
+      --set userArtifacts.image=federation-within-cluster-sample:1.0.0-SNAPSHOT \
+      --set coherence.image=your-12.2.1.4.0-Coherence-image \
+      coherence/coherence</code>   </p>
+<p>After the installation has completed, get the list of pods by running the following command:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   All the four cluster-1 and cluster-2 pods should be running and ready, as shown in the output:
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   cluster-1-coherence-0                 1/1     Running   0          4m
+   cluster-1-coherence-1                 1/1     Running   0          4m
+   cluster-2-coherence-0                 1/1     Running   0          36s
+   cluster-2-coherence-1                 1/1     Running   0          36s
+   coherence-operator-695b9456d5-bzbhl   1/1     Running   0          34m</code></p>
+<ol>
+<li>Port Forward the <strong>SecondaryCluster</strong> Coherence*Extend - Port 20001.</li>
+</ol>
+<p><code>bash
+   $ kubectl port-forward --namespace sample-coherence-ns cluster-2-coherence-0  20001:20000</code></p>
+<ol>
+<li>Use CohQL to connect to each cluster.</li>
+</ol>
+<p>Run CohQL against the <strong>PrimaryCluster</strong> by using the following command:</p>
+<p><code>bash
+   $ mvn exec:java -Dproxy.port=20000</code></p>
+<p>Open another terminal and run CohQL against the <strong>SecondaryCluster</strong>:</p>
+<p><code>bash
+   $ mvn exec:java -Dproxy.port=20001</code></p>
+<ol>
+<li>Insert data into the <strong>PrimaryCluster</strong>.</li>
+</ol>
+<p>Run the following <code>CohQL</code> command to insert data into the <strong>PrimaryCluster</strong>:</p>
+<p>```sql
+   insert into 'test' key('key-1') value('value-1');</p>
+<p>select key(), value() from 'test';
+   Results
+   ["key-1", "value-1"]</p>
+<p>select count() from 'test';
+   Results
+   1
+   ```</p>
+<ol>
+<li>Confirm that the data has been federated to the <strong>SecondaryCluster</strong>.</li>
+</ol>
+<p>Run the following <code>CohQL</code> command to insert data into the <strong>SecondaryCluster</strong>:</p>
+<p><code>sql
+   select key(), value() from 'test';
+   Results
+   ["key-1", "value-1"]</code></p>
+<ol>
+<li>Insert data into the <strong>SecondaryCluster</strong></li>
+</ol>
+<p>Run the following <code>CohQL</code> command to insert data into the <strong>SecondaryCluster</strong>:</p>
+<p>```sql
+   insert into 'test' key('key-2') value('value-2');</p>
+<p>select key(), value() from 'test';
+   Results
+   ["key-1", "value-1"]
+   ["key-2", "value-2"]
+   ```</p>
+<ol>
+<li>Confirm that the data has been federated to the <strong>PrimaryCluster</strong>.</li>
+</ol>
+<p>Run the following <code>CohQL</code> command to insert data into the <strong>PrimaryCluster</strong>:</p>
+<p><code>sql
+   select key(), value() from 'test';
+   Results
+   ["key-1", "value-1"]
+   ["key-2", "value-2"]</code></p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Run the following command to delete both the charts installed in this sample:</p>
+<pre><code class="bash">$ helm delete cluster-1 cluster-2 --purge
+</code></pre>
+
+<p>Before starting another sample, ensure that all  pods are removed from the previous sample. To remove <code>coherence-operator</code>, use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:47
+-->

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Scrape Metrics from Your Prometheus Instance", url: "#_top", children: [
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Configure Your Prometheus Operator to Scrape Coherence Pods", url: "#configure-your-prometheus-operator-to-scrape-coherence-pods" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="scrape-metrics-from-your-prometheus-instance">Scrape Metrics from Your Prometheus Instance</h1>
+<p>You can scrape the metrics from your own Prometheus Operator instance rather than using the <code>prometheusopeartor</code> subchart included with <code>coherence-operator</code>.</p>
+<p>This sample shows you how to scrape metrics from your own Prometheus instance.</p>
+<blockquote>
+<p><strong>Note:</strong> Use of Prometheus and Grafana is available only when using the operator with Oracle Coherence 12.2.1.4.0 version.</p>
+</blockquote>
+<p><a href="../">Return to Metrics samples</a> / <a href="../../">Return to Coherence Operator samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Install Coherence Operator</li>
+</ol>
+<p>When you install the <code>coherence-operator</code>, you must ensure to specify <code>--set prometheusoperator.enabled=false</code>
+   or leave out the option completely, which also defaults to false.</p>
+<p><code>bash
+   --set prometheusoperator.enabled=false</code></p>
+<p>Use the following command to install <code>coherence-operator</code> with <code>prometheusoperator</code> enabled:</p>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --set imagePullSecrets=sample-coherence-secret \
+      --name coherence-operator \
+      --set prometheusoperator.enabled=false \
+      coherence/coherence-operator</code></p>
+<p>After the installation completes, list the pods:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   coherence-operator-665489854f-jr7qj   1/1     Running   0          9s</code></p>
+<p>There is only a single <code>coherence-operator</code> pod.</p>
+<ol>
+<li>Install the Coherence cluster</li>
+</ol>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=storage-tier-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set "targetNamespaces={sample-coherence-ns}" \
+      coherence/coherence</code></p>
+<p>After the installation completes, list the pods:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   coherence-operator-665489854f-jr7qj   1/1     Running   0          3m
+   storage-coherence-0                   1/1     Running   0          1m
+   storage-coherence-1                   1/1     Running   0          1m
+   storage-coherence-2                   0/1     Running   0          22s</code></p>
+<h2 id="configure-your-prometheus-operator-to-scrape-coherence-pods">Configure Your Prometheus Operator to Scrape Coherence Pods</h2>
+<p>Refer <a href="https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md">Prometheus Operator</a> documentation for information about how to configure and deploy a service monitor for your Prometheus Operator installation.</p>
+<p>This section describes only the service monitor configuration as it relates to the Coherence Helm chart.</p>
+<p><code>coherence-service-monitor.yaml</code> fragment:</p>
+<pre><code>...
+spec:
+  selector:
+    matchLabels:
+      component: &quot;coherence-service&quot;
+...
+endpoints:
+  - port: 9612
+</code></pre>
+
+<p>If the parameter <code>service.metricsHttpPort</code> is set when installing the Coherence Helm chart, replace <code>port: 9612</code> with the new value.</p>
+<p>If the Coherence Helm chart parameter <code>store.metrics.ssl.enabled</code> is <code>true</code>, add <code>endpoints.scheme</code> value of <code>https</code> to <code>coherence-service-monitor.yaml</code> fragment.</p>
+<p>There are a number of Coherence Grafana dashboards bundled in the Coherence Operator Helm chart under dashboards folder.
+While Grafana have to be configured to the location of your Prometheus datasource, you can take advantage of these Coherence dashboards by extracting them from the Coherence Operator Helm chart.</p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Use the following commands to delete the chart installed in this sample:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<p>Before starting another sample, ensure that all the pods are removed from previous sample.</p>
+<p>If you want to remove the <code>coherence-operator</code>, use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:48
+-->

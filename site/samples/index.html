@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+      <script src="../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Samples", url: "#_top", children: [
+          ]},
+          {title: "Table of Contents", url: "#table-of-contents", children: [
+          ]},
+          {title: "Get Started", url: "#get-started", children: [
+              {title: "Check Runtime Prerequisites", url: "#check-runtime-prerequisites" },
+              {title: "Check JDK 8 and Maven Installation", url: "#check-jdk-8-and-maven-installation" },
+              {title: "Install Coherence into Local Maven Repository", url: "#install-coherence-into-local-maven-repository" },
+              {title: "Create the Sample Namespace", url: "#create-the-sample-namespace" },
+              {title: "Create a Secret", url: "#create-a-secret" },
+              {title: "Clone the GitHub Repository", url: "#clone-the-github-repository" },
+              {title: "Install the Coherence Operator", url: "#install-the-coherence-operator" },
+              {title: "Enable Prometheus and Log Capture", url: "#enable-prometheus-and-log-capture" },
+              {title: "Check Operator Status", url: "#check-operator-status" },
+          ]},
+          {title: "List Of Samples", url: "#list-of-samples", children: [
+          ]},
+          {title: "Troubleshooting Tips", url: "#troubleshooting-tips", children: [
+              {title: "Coherence Cluster pods never reach ready \"1/1\"", url: "#coherence-cluster-pods-never-reach-ready-11" },
+              {title: "Error: ImagePullBackOff after installing Operator or coherence", url: "#error-imagepullbackoff-after-installing-operator-or-coherence" },
+              {title: "Error: configmaps \"coherence-internal-config\" not found", url: "#error-configmaps-coherence-internal-config-not-found" },
+              {title: "Unable to delete pods when using log capture", url: "#unable-to-delete-pods-when-using-log-capture" },
+              {title: "Receive Error 'no matches for kind \"Prometheus\"'", url: "#receive-error-no-matches-for-kind-prometheus" },
+          ]},
+          {title: "Accessing UI endpoints", url: "#accessing-ui-endpoints", children: [
+              {title: "Access Grafana", url: "#access-grafana" },
+              {title: "Access Kibana", url: "#access-kibana" },
+              {title: "Access Prometheus", url: "#access-prometheus" },
+          ]},
+          {title: "Run Samples Integration Tests", url: "#run-samples-integration-tests", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../user-guide/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../user-guide/" class="btn btn-xs btn-link">
+        User Guide
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="samples">Samples</h1>
+<p>The samples provide demonstrations of how to accomplish common tasks. These samples are provided for educational and demonstration purposes only; they are not intended to be used in production deployments or to be depended upon to create production environments.</p>
+<p>Read through the samples, understand how they work, and then customize them to your requirements.</p>
+<blockquote>
+<p>See the <a href="https://github.com/coherence-community/coherence-demo">Oracle Coherence Demonstration</a> for an example of an application using Coherence and running via the Coherence Operator.</p>
+</blockquote>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+<li><a href="#get-started">Get Started</a></li>
+<li><a href="#check-runtime-prerequisites">Check Runtime Prerequisites</a></li>
+<li><a href="#check-jdk-8-and-maven-installation">Check JDK 8 and Maven Installation</a></li>
+<li><a href="#install-coherence-into-local-maven-repository">Install Coherence into Local Maven Repository</a></li>
+<li><a href="#create-a-secret">Create a Secret</a><ul>
+<li><a href="#use-docker-hub-for-images">Use Docker Hub for Images</a></li>
+<li><a href="#provide-a-secret-to-kubernetes-for-a-repository-on-docker-hub">Provide a Secret to Kubernetes for a Repository on Docker Hub</a></li>
+</ul>
+</li>
+<li><a href="#create-the-sample-namespace">Create the Sample Namespace</a></li>
+<li><a href="#clone-the-github-repository">Clone the GitHub Repository</a></li>
+<li><a href="#install-the-coherence-operator">Install the Coherence Operator</a><ul>
+<li><a href="#install-the-coherence-operator-without-prometheus-and-log-capture">Install the Coherence Operator Without Prometheus and Log Capture</a></li>
+<li><a href="#enable-prometheus">Enable Prometheus</a></li>
+<li><a href="#enable-log-capture">Enable Log Capture</a></li>
+</ul>
+</li>
+<li><a href="#enable-prometheus-and-log-capture">Enable Prometheus and Log Capture</a></li>
+<li><a href="#check-operator-status">Check Operator Status</a></li>
+<li><a href="#list-of-samples">List Of Samples</a></li>
+<li><a href="#troubleshooting-tips">Troubleshooting Tips</a></li>
+<li><a href="#coherence-cluster-pods-never-reach-ready--1-1-">Coherence Cluster pods never reach ready "1/1"</a></li>
+<li><a href="#error--imagepullbackoff-after-installing-operator-or-coherence">Error: ImagePullBackOff after installing Operator or coherence</a></li>
+<li><a href="#error--configmaps--coherence-internal-config--not-found">Error: configmaps "coherence-internal-config" not found</a></li>
+<li><a href="#unable-to-delete-pods-when-using-log-capture">Unable to delete pods when using log capture</a></li>
+<li><a href="#receive-error--no-matches-for-kind--prometheus--">Receive Error 'no matches for kind "Prometheus"'</a></li>
+<li><a href="#accessing-ui-endpoints">Accessing UI endpoints</a></li>
+<li><a href="#access-grafana">Access Grafana</a></li>
+<li><a href="#access-kibana">Access Kibana</a></li>
+<li><a href="#access-prometheus">Access Prometheus</a></li>
+<li><a href="#run-samples-integration-tests">Run Samples Integration Tests</a></li>
+</ul>
+<h1 id="get-started">Get Started</h1>
+<p>To setup Coherence Operator, follow these steps:</p>
+<ol>
+<li><a href="#check-runtime-prerequisites">Check Runtime Prerequisites</a></li>
+<li><a href="#check-jdk-8-and-maven-installation">Check JDK 8 and Maven Installation</a></li>
+<li><a href="#install-coherence-into-local-maven-repository">Install Coherence into Local Maven Repository</a></li>
+<li><a href="#create-the-sample-namespace">Create the Sample Namespace</a></li>
+<li><a href="#create-a-secret">Create a Secret</a></li>
+<li><a href="#clone-the-github-repository">Clone the GitHub Repository</a></li>
+<li><a href="#install-the-coherence-operator">Install the Coherence Operator</a></li>
+</ol>
+<p>If you have already run samples before, you can go to the <a href="#list-of-samples">List of Samples</a>.</p>
+<h2 id="check-runtime-prerequisites">Check Runtime Prerequisites</h2>
+<p>Refer to the following sections in the Quick Start Guide for software versions and runtime environment configuration:</p>
+<ul>
+<li>
+<p>Runtime Environment Prerequisites</p>
+</li>
+<li>
+<p><a href="../quickstart/#software-and-version-prerequisites">Software Requirements</a> - Helm and Kubernetes versions</p>
+</li>
+<li>
+<p><a href="../quickstart/#runtime-environment-prerequisites">Runtime Environment Requirements</a> - Helm and Kubernetes configuration</p>
+</li>
+<li>
+<p>Environment Configuration</p>
+</li>
+<li>
+<p><a href="../quickstart/#add-the-helm-repository-for-coherence">Add the Helm repository for Coherence</a></p>
+</li>
+<li>
+<p><a href="../quickstart/#obtain-images-from-oracle-container-registry">Obtain Images from Oracle Container Registry</a></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> For all the <code>helm install</code> commands, you can leave the --version option off and the latest version of the chart is retrieved. If you wanted to use a specific version, such as 0.9.8, add <code>--version 0.9.8</code> to all installs for the <code>coherence-operator</code> and <code>coherence</code> charts.  </p>
+</blockquote>
+<h2 id="check-jdk-8-and-maven-installation">Check JDK 8 and Maven Installation</h2>
+<p>Ensure that you have the following installed:</p>
+<ul>
+<li>
+<p>JDK 8+</p>
+</li>
+<li>
+<p>Maven 3.5.4+</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> You can use a later version of Java, for example, JDK11, as the
+<code>maven.compiler.source</code> and <code>target</code> are set to JDK 8 in the sample
+<code>pom.xml</code> files.</p>
+</blockquote>
+<h2 id="install-coherence-into-local-maven-repository">Install Coherence into Local Maven Repository</h2>
+<p>If you are running samples that have a Maven project, then follow these steps:</p>
+<ol>
+<li>
+<p>Download and install Oracle Coherence 12.2.1.3 from <a href="https://www.oracle.com/technetwork/middleware/coherence/downloads/index.html">Oracle Technology Network</a>.</p>
+</li>
+<li>
+<p>Ensure that the COHERENCE_HOME environment variable is set to point to the <code>coherence</code> directory under your install location containing the bin, lib, and doc directories. This is required only for the Maven <code>install-file</code> commands.</p>
+</li>
+<li>
+<p>Install Coherence into your local Maven repository:</p>
+</li>
+</ol>
+<p><code>bash
+   $ mvn install:install-file -Dfile=$COHERENCE_HOME/lib/coherence.jar   \
+    -DpomFile=$COHERENCE_HOME/plugins/maven/com/oracle/coherence/coherence/12.2.1/coherence.12.2.1.pom</code></p>
+<p>If you are running Coherence 12.2.1.4, you need to install <code>coherence-metrics</code>.</p>
+<p><code>bash
+   $ mvn install:install-file -Dfile=$COHERENCE_HOME/lib/coherence-metrics.jar -DpomFile=$COHERENCE_HOME/plugins/maven/com/oracle/coherence/coherence-metrics/12.2.1/coherence-metrics.12.2.1.pom</code> </p>
+<h2 id="create-the-sample-namespace">Create the Sample Namespace</h2>
+<p>You need to create the namespace for the first time to run any of the samples. Create your target namespace:</p>
+<p>```bash
+  $ kubectl create namespace sample-coherence-ns</p>
+<p>namespace/sample-coherence-ns created
+  <code>``
+In the samples, a Kubernetes namespace called</code>sample-coherence-ns` is used. If you want to change this namespace, ensure that you change any references to this namespace to match your selected namespace.</p>
+<h2 id="create-a-secret">Create a Secret</h2>
+<p>If all of your images can be pulled from public repositories, this step is not required. Otherwise, you need to enable your Kubernetes cluster to pull images from private repositories. You must create a secret to convey the docker credentials to Kubernetes. In the samples, the secret named <code>sample-coherence-secret</code> is used in the namespace <code>sample-coherence-ns</code>.</p>
+<p>See <a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/</a> for more information.</p>
+<p><code>bash
+  $ kubectl get secret sample-coherence-secret -n sample-coherence-ns</code>
+  <code>console
+  NAME                      TYPE                             DATA   AGE
+  sample-coherence-secret   kubernetes.io/dockerconfigjson   1      18s</code></p>
+<h3 id="use-docker-hub-for-images">Use Docker Hub for Images</h3>
+<p>You can pull Docker images from one repository, modify them, re-tag, and push the images to the repositories that you own. For example, repositories that you can create on <a href="http://hub.docker.com">Docker Hub</a>. The repositories are public by default, but can also be private.</p>
+<h3 id="provide-a-secret-to-kubernetes-for-a-repository-on-docker-hub">Provide a Secret to Kubernetes for a Repository on Docker Hub</h3>
+<p>In this example, the Coherence 12.2.1.3 Docker image is pulled from the
+Docker Store, re-tagged, and pushed in to a freshly created docker
+repository within your Docker Hub account. Then, create a secret to allow Kubernetes to pull that image. This approach can also be used when pushing sidecar images in other samples.</p>
+<ol>
+<li>
+<p>Sign in to <a href="https://hub.docker.com/">Docker Hub</a>.</p>
+</li>
+<li>
+<p>Click <strong>Create a Repository</strong> on the Docker Welcome page.</p>
+</li>
+<li>Enter <code>Coherence</code> as the Name of the repository and in the Description type <code>Re-tags of Official Coherence Image</code>.</li>
+<li>Select Public or Private for the repository and click <strong>Create</strong>.</li>
+<li>Note the docker tag displayed.
+   <code>bash
+   docker push &lt;dockerid&gt;/coherence:tagname</code>
+   <code>&lt;dockerid&gt;/coherence:tagname</code> is the docker tag for the repository.</li>
+<li>Follow the steps in the section <a href="../quickstart/#obtain-images-from-oracle-container-registry">Obtain Images from Oracle Container Registry</a> to get the Coherence 12.2.1.3.x Docker image.</li>
+<li>Re-tag the Coherence 12.2.1.3.x Docker image with your repository and docker tag.
+   <code>bash
+   docker tag store/oracle/coherence:12.2.1.3 &lt;dockerid&gt;/coherence:12.2.1.3</code></li>
+<li>Log in to your Docker Hub account:
+   <code>bash
+   docker login</code>
+   Enter your Docker ID and password.</li>
+<li>Push the re-tagged image to your Docker repository:
+   <code>bash
+   docker push &lt;dockerid&gt;/coherence:12.2.1.3</code>
+   Note the value of the <code>The push refers to repository</code> statement. The first part of that is necessary to create the secret for Kubernetes. In this case, it should be something like <code>docker.io/mydockerid/coherence</code>.</li>
+<li>
+<p>Create the secret within your namespace:
+    <code>bash
+    kubectl create secret docker-registry sample-coherence-secret 
+      --namespace sample-coherence-ns --docker-server=hub.docker.com 
+      --docker-username=docker.io/&lt;dockerid&gt; --docker-password="your docker password" 
+      --docker-email="the email address of your docker account"</code>
+      When invoking <code>helm</code>, you can specify one or more secrets using the <code>--set imagePullSecrets</code> option.</p>
+<p><code>bash
+   --set "imagePullSecrets{sample-coherence-secret}"</code></p>
+</li>
+</ol>
+<h2 id="clone-the-github-repository">Clone the GitHub Repository</h2>
+<p>The samples exist in the <code>gh-pages</code> branch of the Coherence Operator GitHub repository - https://github.com/oracle/coherence-operator.</p>
+<p>Clone the repository and switch to the <code>gh-pages</code> branch:</p>
+<pre><code class="bash">$ git clone https://github.com/oracle/coherence-operator
+
+$ cd coherence-operator
+
+$ git checkout gh-pages
+
+$ cd docs/samples
+</code></pre>
+
+<p>In the <code>samples</code> root directory, check the <a href="pom.xml"><code>pom.xml</code></a> and verify that the value of the <code>coherence.version</code> property matches the version of Coherence that you are actually using. For example, if you have Coherence 12.2.1.3.0, then the value of <code>coherence.version</code> must be <code>12.2.1-3-0</code>.  If this value needs ajustment, use the <code>-Dcoherence.version=</code> argument for all invocations of <code>mvn</code>.</p>
+<p>Use the following command to ensure that all the projects with source code build correcly:</p>
+<pre><code class="bash">$ mvn clean install
+</code></pre>
+
+<blockquote>
+<p><strong>Note</strong>: Any compilation errors indicates that the Coherence JARs are not properly installed or you have not set the JDK correctly in your system.</p>
+</blockquote>
+<h2 id="install-the-coherence-operator">Install the Coherence Operator</h2>
+<p>Install the operator first to try out the samples. When you install the operator, you can optionally enable the following:</p>
+<ol>
+<li>
+<p>Prometheus integration: Captures metrics and displays in
+   Grafana. (Available only for Coherence 12.2.1.4.0 or later)</p>
+</li>
+<li>
+<p>Log capture: Uses Fluentd to send logs to Elasticsearch which can be then viewed in Kibana.</p>
+</li>
+</ol>
+<p>When you enable both Prometheus and log capture, you require extra system resources.</p>
+<blockquote>
+<p><strong>Note:</strong> When you are running the operator locally, for example, Docker on Mac, you should allocate sufficient memory to your Docker for Mac process. The minimum recommended memory to run is 8G.</p>
+</blockquote>
+<h3 id="install-the-coherence-operator-without-prometheus-and-log-capture">Install the Coherence Operator Without Prometheus and Log Capture</h3>
+<p>The following command installs the operator without Prometheus or log capture enabled:</p>
+<pre><code class="bash">$ helm install \
+   --namespace sample-coherence-ns \
+   --set imagePullSecrets=sample-coherence-secret \
+   --name coherence-operator \
+   --set &quot;targetNamespaces={sample-coherence-ns}&quot; \
+   coherence/coherence-operator
+</code></pre>
+
+<h3 id="enable-prometheus">Enable Prometheus</h3>
+<blockquote>
+<p><strong>Note:</strong> Use of Prometheus and Grafana is available only when using the
+operator with Coherence 12.2.1.4 or later version.</p>
+</blockquote>
+<p>To enable Prometheus, add the following options to the operator installation command:</p>
+<pre><code class="bash">   --set prometheusoperator.enabled=true \
+   --set prometheusoperator.prometheusOperator.createCustomResource=false
+</code></pre>
+
+<p>The complete <code>helm install</code> example to enable Prometheus is as follows:</p>
+<pre><code class="bash">$ helm install \
+     --namespace sample-coherence-ns \
+     --set imagePullSecrets=sample-coherence-secret \
+     --name coherence-operator \
+     --set prometheusoperator.enabled=true \
+     --set prometheusoperator.prometheusOperator.createCustomResource=false \
+     --set &quot;targetNamespaces={sample-coherence-ns}&quot; \
+     coherence/coherence-operator
+</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> When you install <code>prometheusOperator</code> for the first time, you must set <code>createCustomResource=true</code>. For subsequent installation of the operator, it must be set to <code>false</code>.</p>
+</blockquote>
+<h3 id="enable-log-capture">Enable Log Capture</h3>
+<p>To enable log capture, which includes Fluentd, Elasticsearch and Kibana, add the following options to the <code>helm install</code> command:</p>
+<p><code>bash
+ --set logCaptureEnabled=true</code></p>
+<p>The complete <code>helm install</code> example to enable log capture is as follows:</p>
+<p><code>bash
+$ helm install \
+    --namespace sample-coherence-ns \
+    --set imagePullSecrets=sample-coherence-secret \
+    --name coherence-operator \
+    --set logCaptureEnabled=true \
+    --set "targetNamespaces={sample-coherence-ns}" \
+    coherence/coherence-operator</code></p>
+<h2 id="enable-prometheus-and-log-capture">Enable Prometheus and Log Capture</h2>
+<p>You can enable both Prometheus and log capture by setting both of the options to <code>true</code>.</p>
+<h2 id="check-operator-status">Check Operator Status</h2>
+<p>Use <code>kubectl get pods -n sample-coherence-ns</code> to ensure that all the pods are in running status. When you enable Prometheus, the following output is displayed:</p>
+<pre><code class="console">NAME                                                     READY   STATUS    RESTARTS   AGE
+coherence-operator-66f9bb7b75-nxwdc                      1/1     Running   0          13m
+coherence-operator-grafana-898fc8bbd-nls45               3/3     Running   0          13m
+coherence-operator-kube-state-metrics-5d5f6855bd-klzj5   1/1     Running   0          13m
+coherence-operator-prometh-operator-58bd58ddfd-dhd9q     1/1     Running   0          13m
+coherence-operator-prometheus-node-exporter-5hxwh        1/1     Running   0          13m
+prometheus-coherence-operator-prometh-prometheus-0       3/3     Running   1          12m
+</code></pre>
+
+<p>Depending upon the number of CPU cores, you can see multiple node-exporter processes.</p>
+<p>When you enable log capture, the following output is displayed:</p>
+<pre><code class="console">NAME                                  READY   STATUS    RESTARTS   AGE
+coherence-operator-64b4f8f95d-fmz2x   2/2     Running   0          2m
+elasticsearch-5b5474865c-tlr44        1/1     Running   0          2m
+kibana-f6955c4b9-n8krf                1/1     Running   0          2m
+</code></pre>
+
+<h1 id="list-of-samples">List Of Samples</h1>
+<p>Samples legend:
+* &#x2714; - Available for Coherence 12.2.1.3.x and above</p>
+<ul>
+<li>
+<p>&#x2726; - Available for Coherence 12.2.1.4.x and above</p>
+</li>
+<li>
+<p><a href="operator/">Coherence Operator</a></p>
+</li>
+<li><a href="operator/logging">Logging</a><ol>
+<li><a href="operator/logging/log-capture">Enable Log capture to View Logs in Kiabana </a> &#x2714;</li>
+<li><a href="operator/logging/custom-logs">Configure Custom Logger and View in Kibana </a> &#x2714;</li>
+<li><a href="operator/logging/own-elasticsearch">Push Logs to Your Elasticsearch Instance</a> &#x2714;</li>
+</ol>
+</li>
+<li><a href="operator/metrics">Metrics (12.2.1.4.X only)</a><ol>
+<li><a href="operator/metrics/enable-metrics">Deploy the Operator with Prometheus Enabled and View in Grafana</a>  &#x2726;</li>
+<li><a href="operator/metrics/ssl">Enable SSL for Metrics</a> &#x2726;</li>
+<li><a href="operator/metrics/own-prometheus">Scrape Metrics from Your Prometheus Instance</a> &#x2726;</li>
+</ol>
+</li>
+<li><a href="operator/scaling">Scaling a Coherence Deployment</a> &#x2714;</li>
+<li><a href="operator/rolling-upgrade">Change Image Version for Coherence or aApplication Container Using Rolling Upgrade</a> &#x2714;</li>
+<li><a href="coherence-deployments">Coherence Deployments</a></li>
+<li><a href="coherence-deployments/sidecar">Add Application JARs/Config to a Coherence Deployment</a> &#x2714;</li>
+<li><a href="coherence-deployments/extend">Accessing Coherence via Coherence*Extend</a><ol>
+<li><a href="coherence-deployments/extend/default">Access Coherence via the Default Proxy Port</a> &#x2714;</li>
+<li><a href="coherence-deployments/extend/proxy-tier">Access Coherence via the Separate Proxy Tier</a> &#x2714;</li>
+<li><a href="coherence-deployments/extend/ssl">Enabling SSL for Proxy Servers</a> &#x2714;     </li>
+<li><a href="coherence-deployments/extend/multiple">Using multiple Coherence*Extend Proxies</a> &#x2714;</li>
+</ol>
+</li>
+<li><a href="coherence-deployments/storage-disabled">Accessing Coherence via storage-disabled Clients</a><ol>
+<li><a href="coherence-deployments/storage-disabled/interceptor">Storage-disabled Client in Cluster via Interceptor</a> &#x2714;</li>
+<li><a href="coherence-deployments/storage-disabled/other">Storage-disabled Client in Cluster as Separate User image</a> &#x2714;</li>
+</ol>
+</li>
+<li><a href="coherence-deployments/federation">Federation  (12.2.1.4.X only)</a><ol>
+<li><a href="coherence-deployments/federation/within-cluster">Within a Single Kubernetes Cluster</a> &#x2726;</li>
+<li><a href="coherence-deployments/federation/across-clusters">Across Separate Kubernets Clusters</a> &#x2726;</li>
+</ol>
+</li>
+<li><a href="coherence-deployments/persistence">Persistence</a><ol>
+<li><a href="coherence-deployments/persistence/default">Use Default Persistent Volume Claim</a> &#x2714;</li>
+<li><a href="coherence-deployments/persistence/pvc">Use a Specific Persistent Volume</a> &#x2714;</li>
+</ol>
+</li>
+<li><a href="coherence-deployments/elastic-data">Elastic Data</a><ol>
+<li><a href="coherence-deployments/elastic-data/default">Deploy Using Default FlashJournal Locations</a> &#x2714;</li>
+<li><a href="coherence-deployments/elastic-data/external">Deploy Using External Volume Mapped to the Host</a> &#x2714;</li>
+</ol>
+</li>
+<li><a href="coherence-deployments/multiple-clusters">Installing Multiple Coherence Clusters with One Operator</a>    </li>
+<li><a href="management">Management</a></li>
+<li><a href="management/rest">Using Management over REST (12.2.1.4.X only)</a><ol>
+<li><a href="management/rest/standard">Access Management over REST</a> &#x2726;</li>
+<li><a href="management/rest/jvisualvm">Access Management over REST Using JVisualVM plugin</a> &#x2726;</li>
+<li><a href="management/rest/ssl">Enable SSL with Management over REST</a> &#x2726;</li>
+<li><a href="management/rest/mbeans">Modify Writable MBeans</a> &#x2726;</li>
+</ol>
+</li>
+<li><a href="management/jmx">Access JMX in the Coherence Cluster via JConsole and JVisualVM</a> &#x2714;</li>
+<li><a href="management/console-cohql">Access Coherence Console and CohQL on a Cluster Node</a> &#x2714;</li>
+<li><a href="management/diagnostics">Diagnostic Tools</a><ol>
+<li><a href="management/diagnostics/heap-dump">Produce and Extract a Heap Dump</a> &#x2714;</li>
+<li><a href="management/diagnostics/jfr">Produce and Extract a Java Flight Recorder (JFR) file</a> &#x2726;</li>
+</ol>
+</li>
+<li><a href="management/reporter">Manage and Use the Reporter</a> &#x2726;</li>
+<li><a href="management/jvmarguments">Provide Arguments to the JVM that Runs Coherence</a> &#x2714;      </li>
+</ul>
+<h1 id="troubleshooting-tips">Troubleshooting Tips</h1>
+<h2 id="coherence-cluster-pods-never-reach-ready-11">Coherence Cluster pods never reach ready "1/1"</h2>
+<p>Use the following <code>kubectl</code> command to see the message from the pod:</p>
+<pre><code class="bash">$ kubectl describe pod pod-name -n sample-coherence-ns
+</code></pre>
+
+<h2 id="error-imagepullbackoff-after-installing-operator-or-coherence">Error: ImagePullBackOff after installing Operator or coherence</h2>
+<p>When you see <code>Error: ImagePullBackOff</code> for one of the pod status,
+examine the pod using <code>kubectl describe pod -n sample-coherence-ns pod-name</code> to determine the image causing the issue.</p>
+<p>Ensure that you have set the following to a valid secret:</p>
+<pre><code class="bash">--set imagePullSecrets=sample-coherence-secret
+</code></pre>
+
+<h2 id="error-configmaps-coherence-internal-config-not-found">Error: configmaps "coherence-internal-config" not found</h2>
+<p>If your pods don't start and the <code>kubectl describe</code> command shows the error, ensure that you have included the <code>--targetNamespaces</code> option when installing the <code>coherence-operator</code>.</p>
+<pre><code class="bash">Error: configmaps &quot;coherence-internal-config&quot; not found
+</code></pre>
+
+<h2 id="unable-to-delete-pods-when-using-log-capture">Unable to delete pods when using log capture</h2>
+<p>If you are using Kubernetes version older than 1.13.0, you cannot delete pods when you have enabled log capture feature. This is a known issue (fluentd) and you need to add the options <code>--force --grace-period=0</code> to force delete the pods.</p>
+<p>Refer to <a href="https://github.com/kubernetes/kubernetes/issues/45688">https://github.com/kubernetes/kubernetes/issues/45688</a>.</p>
+<h2 id="receive-error-no-matches-for-kind-prometheus">Receive Error 'no matches for kind "Prometheus"'</h2>
+<p>If you have enabled metrics, you can get the following error when you try to install the operator:</p>
+<pre><code class="console">Error: validation failed: [unable to recognize &quot;&quot;: no matches for kind &quot;Prometheus&quot; in
+version &quot;monitoring.coreos.com/v1&quot;, unable to recognize &quot;&quot;: no matches for kind &quot;PrometheusRule&quot; in
+version &quot;monitoring.coreos.com/v1&quot;, unable to recognize &quot;&quot;: no
+...
+</code></pre>
+
+<p>Ensure that you have set the following option in the operator installation:</p>
+<pre><code class="bash">   --set prometheusoperator.prometheusOperator.createCustomResource=true
+</code></pre>
+
+<p>This is required only when you install Prometheus for the first time in the namespace.</p>
+<h1 id="accessing-ui-endpoints">Accessing UI endpoints</h1>
+<h2 id="access-grafana">Access Grafana</h2>
+<blockquote>
+<p><strong>Note:</strong> Use of Prometheus and Grafana is available only when using the
+operator with Oracle Coherence 12.2.1.4 version.</p>
+</blockquote>
+<p>If you have enabled Prometheus, then you can use the <code>port-forward-grafana.sh</code> script in the <a href="common">common</a> directory to view metrics.</p>
+<ol>
+<li>Start the port-forward</li>
+</ol>
+<p><code>bash
+   $ ./port-forward-grafana.sh sample-coherence-ns</code>
+   <code>console
+   Forwarding from 127.0.0.1:3000 -&gt; 3000
+   Forwarding from [::1]:3000 -&gt; 3000</code></p>
+<ol>
+<li>Access Grafana using the following URL:</li>
+</ol>
+<p><a href="http://127.0.0.1:3000/d/coh-main/coherence-dashboard-main">http://127.0.0.1:3000/d/coh-main/coherence-dashboard-main</a></p>
+<ul>
+<li>
+<p>Username: admin  </p>
+</li>
+<li>
+<p>Password: prom-operator</p>
+</li>
+</ul>
+<h2 id="access-kibana">Access Kibana</h2>
+<p>If you have enabled log capture, then you can use the <code>port-forward-kibana.sh</code> script in the <a href="common">common</a> directory to view metrics.</p>
+<ol>
+<li>Start the port-forward</li>
+</ol>
+<p><code>bash
+   $ ./port-forward-kibana.sh sample-coherence-ns</code>
+   <code>console
+   Forwarding from 127.0.0.1:5601 -&gt; 5601
+   Forwarding from [::1]:5601 -&gt; 5601</code>
+2. Access Kibana using the following URL:</p>
+<p><a href="http://127.0.0.1:5601/">http://127.0.0.1:5601/</a></p>
+<h2 id="access-prometheus">Access Prometheus</h2>
+<blockquote>
+<p><strong>Note:</strong> Use of Prometheus and Grafana is available only when using the
+operator with Oracle Coherence 12.2.1.4 version.</p>
+</blockquote>
+<p>If you have enabled Prometheus, then you can use the <code>port-forward-prometheus.sh</code> script in the <a href="common">common</a> directory to view metrics directly.</p>
+<ol>
+<li>Start the port-forward</li>
+</ol>
+<p><code>bash
+   $ ./port-forward-prometheus.sh sample-coherence-ns</code></p>
+<p><code>console
+   Forwarding from 127.0.0.1:9090 -&gt; 9090
+   Forwarding from [::1]:9090 -&gt; 9090</code>
+2. Access Prometheus using the following URL:</p>
+<p><a href="http://127.0.0.1:9090/">http://127.0.0.1:9090/</a></p>
+<h1 id="run-samples-integration-tests">Run Samples Integration Tests</h1>
+<p>Refer to <a href="developer/">Developer Guide</a> for more information about how to run the samples integration tests.</p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../user-guide/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../user-guide/" class="btn btn-xs btn-link">
+        User Guide
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:47
+-->

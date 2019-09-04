@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Enable SSL in Coherence 12.2.1.3.X", url: "#_top", children: [
+              {title: "Sample files", url: "#sample-files" },
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="enable-ssl-in-coherence-12213x">Enable SSL in Coherence 12.2.1.3.X</h1>
+<p>This sample shows how to secure Coherence*Extend traffic via 2-way SSL when using the Oracle Coherence
+Operator with Coherence 12.2.1.3.x.</p>
+<p>Refer to the <a href="https://docs.oracle.com/middleware/12213/coherence/secure/securing-extend-client-connections.htm">Coherence Documentation</a> for more information about using SSL with Coherence.</p>
+<blockquote>
+<p><strong>Note:</strong> If you are using Coherence 12.2.1.4.0, the instructions are slightly different, and
+you should refer to them <a href="../12214/">here</a>.</p>
+</blockquote>
+<p><a href="../">Return to Coherence*Extend SSL samples</a> / <a href="../../">Return to Coherence*Extend samples</a> / <a href="../../../">Return to Coherence Deployments samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="sample-files">Sample files</h2>
+<ul>
+<li>
+<p><a href="src/main/docker/Dockerfile">src/main/docker/Dockerfile</a> - Dockerfile for creating sidecar image from which the configuration will be read at pod startup</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/certs/keys.sh">src/main/resources/certs/keys.sh</a> - File for generating keys for this example  </p>
+</li>
+<li>
+<p><a href="src/main/resources/client-cache-config.xml">src/main/resources/client-cache-config.xml</a> - Cache configuration for the extend client</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/storage-cache-config.xml">src/main/resources/conf/storage-cache-config.xml</a> - Cache configuration for storage-tier</p>
+</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ensure that you have installed Coherence Operator by following the instructions <a href="../../../#install-the-coherence-operator">here</a>.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Change to the <code>samples/coherence-deployments/extend/ssl/12213</code> directory. Ensure that you have your maven build environment set for JDK8, and build the project.</li>
+</ol>
+<blockquote>
+<p><strong>Note</strong>: This sample uses self-signed certificates and simple passwords. They are for demonstration
+purposes only and should <strong>NOT</strong> be used in a production environment.
+You should use and generate standard certificates with appropriate passwords.</p>
+</blockquote>
+<p><code>bash
+   $ mvn clean install -P docker</code></p>
+<p>As a result, the docker image will be built with the cache configuration files and compiled Java classes with the name in the format, <code>proxy-ssl-sample:${version}</code>. For example,</p>
+<p><code>bash
+   proxy-ssl-sample:1.0.0-SNAPSHOT</code></p>
+<blockquote>
+<p><strong>Note:</strong> If you are running against a remote Kubernetes cluster, then you must
+push the above image to your repository accessible to that cluster. You must also
+prefix the image name in the <code>helm</code> command, as shown below.</p>
+</blockquote>
+<ol>
+<li>Install the Coherence cluster.</li>
+</ol>
+<p>Set the following property and ensure that correct cache configuration is used:</p>
+<p><code>--set store.cacheConfig=storage-cache-config.xml</code></p>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=proxy-ssl-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set store.cacheConfig=storage-cache-config.xml \
+      --set prometheusoperator.enabled=false \
+      --set logCaptureEnabled=false \
+      --set userArtifacts.image=proxy-ssl-sample:1.0.0-SNAPSHOT \
+      coherence/coherence</code></p>
+<p>Once the installation is complete, run the following command to retrieve the list of pods:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                   READY   STATUS    RESTARTS   AGE
+   storage-coherence-0    1/1     Running   0          4m
+   storage-coherence-1    1/1     Running   0          2m   
+   storage-coherence-2    1/1     Running   0          2m</code>   </p>
+<ol>
+<li>Port forward the proxy port on the proxy-tier.</li>
+</ol>
+<p><code>bash
+   $ kubectl port-forward -n sample-coherence-ns storage-coherence-0 20000:20000</code></p>
+<ol>
+<li>Connect via CohQL and run the commands:</li>
+</ol>
+<p><code>bash
+   $ mvn exec:java</code></p>
+<p>Run the following <code>CohQL</code> commands to insert data into the cluster.</p>
+<p><code>sql
+   insert into 'test' key('key-1') value('value-1');</code></p>
+<pre><code>```sql
+select key(), value() from 'test';
+Results
+["key-1", "value-1"]
+
+select count() from 'test';
+Results
+1
+```
+</code></pre>
+<p>You should see a message indicating that the Coherence*Extend client is using  <code>SSLSocketProvider</code> with 2-way auth, as shown in the output:</p>
+<p><code>console
+   2019-05-06 10:58:49.752/5.105 Oracle Coherence GE 12.2.1.3.2 &lt;D5&gt; (thread=com.tangosol.coherence.dslquery.QueryPlus.main(), member=n/a): instantiated SSLSocketProviderDependencies: SSLSocketProvider(auth=two-way, \
+       identity=SunX509/file:conf/certs/groot.jks, trust=SunX509/file:conf/certs/truststore-all.jks)</code></p>
+<p>Type <code>bye</code> or <code>CTRL-C</code> to exit CohQL.  </p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Run the following command to delete both the charts installed in this sample:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<p>Before starting another sample, ensure that all  pods are removed from the previous sample. To remove <code>coherence-operator</code>, use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:47
+-->
