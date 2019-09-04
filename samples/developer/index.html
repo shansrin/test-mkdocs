@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Running the samples integration tests - Coherence Operator</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Running the samples integration tests", url: "#_top", children: [
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Run the tests", url: "#run-the-tests" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="running-the-samples-integration-tests">Running the samples integration tests</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Please ensure that you have met all the prerequisites as described in the
+<a href="../#confirm-quickstart-runtime-prerequisites">Samples Readme</a>.</p>
+<h2 id="run-the-tests">Run the tests</h2>
+<ol>
+<li>Create the test namespace</li>
+</ol>
+<p>```bash
+   export CI_BUILD_ID=test
+   export NS=test-sample-${CI_BUILD_ID}</p>
+<p>kubectl create namespace $NS
+   ```</p>
+<ol>
+<li>Create the secrets </li>
+</ol>
+<p>```bash<br />
+   kubectl create secret docker-registry coherence-k8s-operator-development-secret \
+        --namespace $NS \
+        --docker-server=your-docker-server \
+        --docker-username=your-docker-username \
+        --docker-password='your-docker-password'</p>
+<p>kubectl create secret docker-registry sample-coherence-secret \
+        --namespace $NS \
+        --docker-server=your-docker-server \
+        --docker-username=your-docker-username \
+        --docker-password='your-docker-password' <br />
+   ```</p>
+<blockquote>
+<p><strong>Note:</strong> You must have push permissions for this repository if you not running Kubernetes 
+locally.</p>
+</blockquote>
+<ol>
+<li>Run the tests</li>
+</ol>
+<p><code>bash
+   cd docs/samples
+   mvn -Dcoherence.image.prefix=store/oracle/ -Dk8s.chart.test.versions=0.9.4 \
+       -Dk8s.namespace=$NS -Dk8s.create.namespace=false -P docker,helm-test clean verify</code>   </p>
+<blockquote>
+<p><strong>Note:</strong> If you are running against a remote Kubernetes cluster, you must also specify
+the profile <code>dockerPush</code></p>
+<p><strong>Note:</strong> You can also specify multiple versions of the chart to test: e.g. 
+<code>-Dk8s.chart.test.versions=0.9.4,1.0.0</code>. </p>
+<p><strong>Note:</strong> You can set the <code>operator.helm.chart.package</code> and <code>coherence.helm.chart.package</code>
+properties to run against operator charts that have been built on disk.</p>
+</blockquote>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

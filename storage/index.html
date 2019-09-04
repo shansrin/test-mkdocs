@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Recommended Storage for Coherence - Coherence Operator</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Recommended Storage for Coherence", url: "#_top", children: [
+              {title: "Active Persistence", url: "#active-persistence" },
+              {title: "Snapshot", url: "#snapshot" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="recommended-storage-for-coherence">Recommended Storage for Coherence</h1>
+<h3 id="active-persistence">Active Persistence</h3>
+<p>For active persistence, local storage is recommended as its IO has a lower latency.</p>
+<p>Set up Coherence active persistence with local storage using the following steps:</p>
+<h4 id="1-create-a-local-storage-class">1. Create a Local Storage Class</h4>
+<p>If necessary, create a local storage class, <code>localsc</code>, using YAML.</p>
+<pre><code>apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {&quot;apiVersion&quot;:&quot;storage.k8s.io/v1beta1&quot;,&quot;kind&quot;:&quot;StorageClass&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;storageclass.beta.kubernetes.io/is-default-class&quot;:&quot;false&quot;},&quot;name&quot;:&quot;localsc&quot;,&quot;namespace&quot;:&quot;&quot;},&quot;provisioner&quot;:&quot;kubernetes.io/no-provisioner&quot;}
+    storageclass.beta.kubernetes.io/is-default-class: &quot;false&quot;
+  name: localsc
+  selfLink: /apis/storage.k8s.io/v1/storageclasses/localsc
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+</code></pre>
+
+<h4 id="2-create-local-persistent-volumes">2. Create Local Persistent Volumes</h4>
+<p>Since local volumes can only be used as a statically created PersistentVolume, persistent volumes need to be created before they are used. For information about persistent volumes, read the <a href="https://kubernetes.io/docs/concepts/storage/#local">Kubernetes document</a>.</p>
+<p>A sample YAML for creating PersistentVolume, <code>mylocalsc-pv0</code> with label <code>type: local</code> is as follows:</p>
+<pre><code>kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mylocalsc-pv0
+  labels:
+    type: local
+spec:
+  storageClassName: mylocalsc
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: &quot;/coh/mydata&quot;
+</code></pre>
+
+<p>The sample YAML file can be used to create PersistentVolume using the following <code>kubectl</code> command:</p>
+<pre><code>kubectl create -f mypv0.yaml
+</code></pre>
+
+<p><strong>Note</strong>: The number of Persistent Volumes created should be the same as the Coherence cluster size.
+For instance, in case of a cluster of size 3, you must create Persistent Volumes, <code>mylocalsc-pv1</code>, <code>mylocalsc-pv2</code>, and <code>mylocalsc-pv3</code>.</p>
+<h4 id="3-specify-parameters-for-coherence-helm-install">3. Specify Parameters for Coherence Helm Install</h4>
+<h5 id="a-set-nodeselector-for-coherence-clusters">a. Set nodeSelector for Coherence Clusters</h5>
+<p>In order to use the local storage, the Coherence cluster must run a specified set
+of nodes. Labels are used to identify the nodes that you want to use.</p>
+<p>Note that the set of nodes identified must be the same as the Coherence cluster size.</p>
+<p>Suppose the label <code>name=pool1</code> is sufficient to identify the nodes that are required,
+then the following Helm parameter needs to be set:</p>
+<pre><code>--set nodeSelector.name=pool1
+</code></pre>
+
+<h5 id="b-enable-active-persistence-in-coherence">b. Enable Active Persistence in Coherence</h5>
+<p>Set the following Helm parameter to enable Active Persistence in Coherence:</p>
+<pre><code>--set store.persistence.enabled=true
+</code></pre>
+
+<h5 id="c-specify-persistent-volumes-used-for-coherence">c. Specify Persistent Volumes Used for Coherence</h5>
+<p>Set storage class and set labels for persistent volumes.</p>
+<pre><code>--set store.persistence.storageClass=mylocalsc
+</code></pre>
+
+<pre><code>--set store.persistence.selector.matchLabels.type=local
+</code></pre>
+
+<h4 id="4-uninstall-coherence-with-persistence">4. Uninstall Coherence with Persistence</h4>
+<h5 id="i-remove-the-installation-using-helm-delete">i. Remove the Installation Using Helm Delete</h5>
+<h5 id="ii-delete-the-persistent-volume-claim-pvc">ii. Delete the Persistent Volume Claim (PVC)</h5>
+<p><strong><em>Note</em></strong>: The PVC is created in the same namespace as your Helm installation. The number of PVC equals the Coherence cluster size.</p>
+<p>Retrieve the name of the PVC as follows:</p>
+<pre><code>kubectl get pvc -n your_namespace
+</code></pre>
+
+<p>Then, delete the PVC one at a time as follows:</p>
+<pre><code>kubectl delete pvc -n your_namespace your_pvc_name
+</code></pre>
+
+<h5 id="iii-delete-the-persistent-volume">iii. Delete the Persistent Volume</h5>
+<pre><code>kubectl delete pv mylocalsc-pv0
+</code></pre>
+
+<h3 id="snapshot">Snapshot</h3>
+<p>By default, Coherence snapshot uses the same location as active persistence to store snapshot data.</p>
+<p>If you want to use a different location, then add the following parameter during Helm installation:</p>
+<pre><code>--set store.snapshot.enabled=true
+</code></pre>
+
+<p>In this case, you should use block storage and configure <code>store.snapshot.storageClass</code>
+and <code>store.snapshot.selector.matchLabels</code> as in step 3c above.</p>
+<p>OCI block storage is used by default in an OCI environment. Therefore, it is not required to set the above two properties.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

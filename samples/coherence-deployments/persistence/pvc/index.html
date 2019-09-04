@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Use Specific Persistent Volumes", url: "#_top", children: [
+              {title: "Sample files", url: "#sample-files" },
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="use-specific-persistent-volumes">Use Specific Persistent Volumes</h1>
+<p>This sample shows how to use specific persistent volumes (PV) for Coherence when
+using <code>active</code> persistence mode. Local storage is the recommended storage type for achieving the best  performance for <code>active</code> persistence, but this sample can be modified to use any storage class.</p>
+<blockquote>
+<p><strong>Note:</strong> We only show how to set <code>store.persistence.*</code> chart values which apply for <code>active</code> persistence (/persistence mount point) only.
+It is equally applicable to the <code>store.snapshot.*</code> chart values that apply to the <code>/snapshot</code> volume.</p>
+</blockquote>
+<p><a href="../">Return to Persistence samples</a> / <a href="../../">Return to Coherence Deployments samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="sample-files">Sample files</h2>
+<ul>
+<li>
+<p><a href="local-sc.yaml">local-sc.yaml</a> - YAML for creating local storage class</p>
+</li>
+<li>
+<p><a href="mylocal-pv0.yaml">mylocal-pv0.yaml</a> - YAML for creating persistent volume mylocal-pv0</p>
+</li>
+<li>
+<p><a href="mylocal-pv2.yaml">mylocal-pv1.yaml</a> - YAML for creating persistent volume mylocal-pv0</p>
+</li>
+<li>
+<p><a href="mylocal-pv2.yaml">mylocal-pv2.yaml</a> - YAML for creating persistent volume mylocal-pv0</p>
+</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ensure that you have installed Coherence Operator by following the instructions <a href="../../../#install-the-coherence-operator">here</a>.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Create a local storage class.</li>
+</ol>
+<p>Using the <code>local-sc.yaml</code> file, create a local storage class called <code>localsc</code>.</p>
+<p><code>bash
+   $ kubectl create -f local-sc.yaml</code>
+   <code>console
+   storageclass.storage.k8s.io/localsc created</code>
+   Confirm the creation of the storage class:
+   <code>bash
+   $ kubectl get storageclass</code>
+   <code>console
+   NAME                 PROVISIONER                    AGE
+   hostpath (default)   docker.io/hostpath             26d
+   localsc              kubernetes.io/no-provisioner   31s</code></p>
+<ol>
+<li>Create persistent volumes (PV).</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> The PV has the label,  <code>coherenceCluster=persistence-cluster</code>, which is
+ used by a nodeSelector to match PV with Coherence clusters.</p>
+</blockquote>
+<p>```bash
+   $ kubectl create -f mylocal-pv0.yaml -n sample-coherence-ns
+   persistentvolume/mylocal-pv0 created   </p>
+<p>$ kubectl create -f mylocal-pv1.yaml -n sample-coherence-ns
+   persistentvolume/mylocal-pv2 created   </p>
+<p>$ kubectl create -f mylocal-pv2.yaml -n sample-coherence-ns
+   persistentvolume/mylocal-pv2 created
+   <code>Confirm the creation of persistent volumes by running the `kubectl` command:</code>bash
+   $ kubectl get pv -n  sample-coherence-ns
+   <code></code>console
+   NAME          CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+   mylocal-pv0   2Gi        RWO            Retain           Available           mylocalsc               1m
+   mylocal-pv1   2Gi        RWO            Retain           Available           mylocalsc               14s
+   mylocal-pv2   2Gi        RWO            Retain           Available           mylocalsc               9s
+   ```</p>
+<blockquote>
+<p><strong>Note:</strong> The number of persistent volumes created must be the same as the Coherence cluster size.
+For this example we have assumed a cluster size of three.</p>
+</blockquote>
+<ol>
+<li>Install the Coherence cluster.    </li>
+</ol>
+<p>Run the following command to install the cluster with persistence enabled, and select the correct storage-class:</p>
+<ul>
+<li>
+<p><code>--set store.persistence.storageClass=mylocalsc</code> - Specifies the storage-class</p>
+</li>
+<li>
+<p><code>--set store.persistence.selector.matchLabels.coherenceCluster=persistence-cluster</code> - Ensures that the persistent volumes are chosen only where labels match.</p>
+</li>
+</ul>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=persistence-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set prometheusoperator.enabled=false \
+      --set logCaptureEnabled=false \
+      --set store.persistence.enabled=true \
+      --set store.persistence.storageClass=mylocalsc \
+      --set store.persistence.selector.matchLabels.coherenceCluster=persistence-cluster \
+      coherence/coherence</code></p>
+<p>Check whether the pods are running:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   coherence-operator-66f9bb7b75-55msb   1/1     Running   0          23m
+   storage-coherence-0                   1/1     Running   0          5m
+   storage-coherence-1                   1/1     Running   0          4m
+   storage-coherence-2                   1/1     Running   0          3m</code></p>
+<p>Ensure that the persistent volumes match the pods:</p>
+<p><code>bash
+   $ kubectl get pv -n sample-coherence-ns</code>
+   <code>console
+   NAME          CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                                        STORAGECLASS   REASON   AGE
+   mylocal-pv0   2Gi        RWO            Retain           Bound    sample-coherence-ns/persistence-volume-storage-coherence-0   mylocalsc               10m
+   mylocal-pv1   2Gi        RWO            Retain           Bound    sample-coherence-ns/persistence-volume-storage-coherence-1   mylocalsc               8m
+   mylocal-pv2   2Gi        RWO            Retain           Bound    sample-coherence-ns/persistence-volume-storage-coherence-2   mylocalsc               8m</code></p>
+<ol>
+<li>Add data to the cluster.</li>
+</ol>
+<p>a. Connect to the Coherence console using the following command to create a cache:</p>
+<p><code>bash
+   $ kubectl exec -it --namespace sample-coherence-ns storage-coherence-0 bash /scripts/startCoherence.sh console</code>   </p>
+<p>b. At the <code>Map (?):</code> prompt, type <code>cache test</code>.  This creates a cache in the service, <code>PartitionedCache</code>.</p>
+<p>c. Use the following to add 100,000 objects of size 1024 bytes, starting at index 0, and using batches of 100.</p>
+<p>```bash
+   bulkput 100000 1024 0 100</p>
+<p>Mon Apr 15 07:37:03 GMT 2019: adding 100000 items (starting with #0) each 1024 bytes ...
+   Mon Apr 15 07:37:15 GMT 2019: done putting (11578ms, 8878KB/sec, 8637 items/sec)
+   ```</p>
+<p>At the prompt, type <code>size</code> and it should show 100000.</p>
+<p>d. Create a snapshot of the <code>PartitionedCache</code> service which contains the cache <code>test</code>. This is for later use.</p>
+<p><code>bash
+   snapshot create test-snapshot
+   Issuing createSnapshot for service PartitionedCache and snapshot empty-service
+   Success</code></p>
+<p><code>bash
+   snapshot list
+    Snapshots for service PartitionedCache
+       test-snapshot</code></p>
+<p>To exit the console, type <code>bye</code>.</p>
+<ol>
+<li>Delete the Coherence cluster by running the following command:
+    <code>bash
+    $ helm delete storage --purge</code></li>
+</ol>
+<p>Before continuing, ensure that the pods are deleted. This can be achieved using the following <code>kubectl</code> command:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code><br />
+   Ensure that there are no pods running with the name <code>coherence-storage-*</code></p>
+<p>Run the following to ensure that the PVC still exists:   </p>
+<p><code>bash
+   $ kubectl get pv -n sample-coherence-ns
+   NAME          CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                                        STORAGECLASS   REASON   AGE
+   mylocal-pv0   2Gi        RWO            Retain           Bound    sample-coherence-ns/persistence-volume-storage-coherence-0   mylocalsc               10m
+   mylocal-pv1   2Gi        RWO            Retain           Bound    sample-coherence-ns/persistence-volume-storage-coherence-1   mylocalsc               8m
+   mylocal-pv2   2Gi        RWO            Retain           Bound    sample-coherence-ns/persistence-volume-storage-coherence-2   mylocalsc               8m</code></p>
+<ol>
+<li>Reinstall the Coherence cluster:   </li>
+</ol>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=persistence-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set prometheusoperator.enabled=false \
+      --set logCaptureEnabled=false \
+      --set store.persistence.enabled=true \
+      --set store.persistence.storageClass=mylocalsc \
+      --set store.persistence.selector.matchLabels.coherenceCluster=persistence-cluster \
+      coherence/coherence</code></p>
+<p>Wait until all three pods are running before you continue to the next step.</p>
+<ol>
+<li>Ensure that the data added previously still exists.</li>
+</ol>
+<p>a. Connect to the Coherence console using the following command:</p>
+<p><code>bash
+   $ kubectl exec -it --namespace sample-coherence-ns storage-coherence-0 bash /scripts/startCoherence.sh console</code>   </p>
+<p>b. At the <code>Map (?):</code> prompt, type <code>cache test</code>.  This create/use a cache in the service <code>PartitionedCache</code>.</p>
+<p>c. At the prompt, type <code>size</code> and it should show 100000.</p>
+<blockquote>
+<p>This shows that the previous data entered has automatically been recovered as the PVC was honoured.</p>
+</blockquote>
+<p>d. Clear the cache using <code>clear</code> command and confirm the cache size is zero.</p>
+<p>Recover the <code>test-snapshot</code> using:</p>
+<p><code>bash
+   snapshot recover test-snapshot</code></p>
+<p>The size of the cache should now be 100000.</p>
+<p>To exit the console, type <code>bye</code>.   </p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Run the following command to delete the chart and persistent volumes installed in this sample:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<p>Once the pods are deleted, run the following command to delete the PVC.:</p>
+<pre><code class="bash">$ kubectl delete pvc persistence-volume-storage-coherence-0 persistence-volume-storage-coherence-1 \
+                     persistence-volume-storage-coherence-2 -n sample-coherence-ns
+persistentvolumeclaim &quot;snapshot-volume-storage-coherence-0&quot; deleted
+persistentvolumeclaim &quot;snapshot-volume-storage-coherence-1&quot; deleted
+persistentvolumeclaim &quot;snapshot-volume-storage-coherence-2&quot; deleted
+
+$ kubectl delete pv mylocal-pv0 mylocal-pv1 mylocal-pv2
+persistentvolume &quot;mylocal-pv0&quot; deleted
+persistentvolume &quot;mylocal-pv1&quot; deleted
+persistentvolume &quot;mylocal-pv2&quot; deleted
+
+$ kubectl get pvc -n sample-coherence-ns
+No resources found.
+</code></pre>
+
+<p>Before starting another sample, ensure that all  pods are removed from the previous sample. To remove <code>coherence-operator</code>, use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:47
+-->

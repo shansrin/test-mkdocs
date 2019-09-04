@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Enable SSL with Management over REST Endpoint", url: "#_top", children: [
+              {title: "Sample files", url: "#sample-files" },
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="enable-ssl-with-management-over-rest-endpoint">Enable SSL with Management over REST Endpoint</h1>
+<p>By default, when the Coherence chart is installed, the Management over REST endpoint is exposed at port 30000 (through HTTP) on each of the pods.</p>
+<p>This sample shows how you can access and configure the management over REST endpoint to use SSL.</p>
+<blockquote>
+<p><strong>Note</strong>: Use of management over REST endpoint is available only when using the operator with Oracle Coherence 12.2.1.4.0 version.</p>
+</blockquote>
+<p><a href="../">Return to Management over REST samples</a>  <a href="../../">Return to Management samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="sample-files">Sample files</h2>
+<ul>
+<li>
+<p><a href="src/main/java/com/oracle/coherence/examples/SampleRESTClient.java">src/main/java/com/oracle/coherence/examples/SampleRESTClient.java</a> -
+  Client to connect to management over REST through SSL</p>
+</li>
+<li>
+<p><a href="src/main/java/com/oracle/coherence/examples/HttpSSLHelper.java">src/main/java/com/oracle/coherence/examples/HttpSSLHelper.java</a> -
+  Client to connect to management over Rest through SSL</p>
+</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ensure you have already installed the Coherence Operator using the instructions <a href="../../../#install-the-coherence-operator">here</a>.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Change to the <code>samples/management/rest/ssl/src/main/resources/certs</code> directory and ensure that you have Maven build environment set for JDK 8 and build the project:</li>
+</ol>
+<p><code>bash
+   $ mvn clean compile</code></p>
+<blockquote>
+<p><strong>Note</strong>: This sample uses self-signed certificates and simple passwords. They are for sample purposes only and must not be used in a production environment. You must use and generate proper certificates with appropriate passwords.</p>
+</blockquote>
+<ol>
+<li>Create the SSL Secret:</li>
+</ol>
+<p>```bash <br />
+   $ cd /src/main/resources/certs</p>
+<p>$ kubectl -n sample-coherence-ns create secret generic ssl-secret \
+        --from-file icarus.jks \
+        --from-file truststore-guardians.jks \
+        --from-literal keypassword.txt=password \
+        --from-literal storepassword.txt=password \
+        --from-literal trustpassword.txt=secret
+   ```</p>
+<ol>
+<li>Install the Coherence cluster:</li>
+</ol>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=rest-ssl-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set prometheusoperator.enabled=true \
+      --set logCaptureEnabled=false \
+      --set store.management.ssl.enabled=true \
+      --set store.management.ssl.secrets=ssl-secret \
+      --set store.management.ssl.keyStore=icarus.jks \
+      --set store.management.ssl.keyStorePasswordFile=storepassword.txt \
+      --set store.management.ssl.keyPasswordFile=keypassword.txt \
+      --set store.management.ssl.keyStoreType=JKS \
+      --set store.management.ssl.trustStore=truststore-guardians.jks \
+      --set store.management.ssl.trustStorePasswordFile=trustpassword.txt \
+      --set store.management.ssl.trustStoreType=JKS \
+      --set store.management.ssl.requireClientCert=false \
+      --set coherence.image=your-12.2.1.4.0-Coherence-image \
+      coherence/coherence</code></p>
+<blockquote>
+<p><em>Note:</em> If your version of the Coherence Operator does not default to using Oracle Coherence 12.2.1.4.0, then you must replace <code>your-12.2.1.4.0-Coherence-image</code> with an appropriate 12.2.1.4.0 image.</p>
+</blockquote>
+<ol>
+<li>Confirm that the SSL is applied:</li>
+</ol>
+<p><code>bash
+   $ kubectl logs storage-coherence-0 --namespace sample-coherence-ns | grep SSLSocketProviderDependencies</code>
+   <code>console
+   2019-06-17 03:31:13.256/7.535 Oracle Coherence GE 12.2.1.4.0 &lt;D5&gt; (thread=main, member=1): instantiated SSLSocketProviderDependencies: SSLSocketProvider(auth=two-way, 
+     identity=SunX509/file:/coherence/certs/management/icarus.jks,
+     trust=SunX509/file:/coherence/certs/management/truststore-guardians.jks)</code></p>
+<ol>
+<li>Port forward the management over REST endpoint port:</li>
+</ol>
+<p><code>bash
+   $ kubectl port-forward storage-coherence-0 -n sample-coherence-ns 30000:30000</code>
+   <code>console
+   Forwarding from [::1]:30000 -&gt; 30000
+   Forwarding from 127.0.0.1:30000 -&gt; 30000</code>   </p>
+<ol>
+<li>Access management over REST endpoint</li>
+</ol>
+<p>Use the following command to run the <code>SampleRESTClient</code> which connects through SSL:</p>
+<p><code>bash
+   $ mvn exec:java</code></p>
+<p>This results in the output with the additional content from the REST endpoint:</p>
+<p><code>console
+   Success, HTTP Response code is 200</code></p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Use the following commands to delete the two charts installed in this sample:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<p>Delete the secret using the following:</p>
+<pre><code class="bash">$ kubectl delete secret ssl-secret --namespace sample-coherence-ns
+</code></pre>
+
+<p>Before starting another sample, ensure that all the pods are removed from previous sample.</p>
+<p>If you want to remove the <code>coherence-operator</code>, then use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-04 11:12:48
+-->
