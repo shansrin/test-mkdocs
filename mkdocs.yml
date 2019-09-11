@@ -4,7 +4,7 @@ nav:
     - Quick Start: quickstart.md
     - User Guide: user-guide.md
     - Samples: samples/README.md
-theme: readthedocs
+theme: windmill
 palette:
     primary: red
     accent: red
