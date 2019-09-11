@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Push Logs to Your Elasticsearch Instance", url: "#_top", children: [
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="push-logs-to-your-elasticsearch-instance">Push Logs to Your Elasticsearch Instance</h1>
+<p>The Coherence Operator manages data logging through the
+ElasticSearch, Fluentd, and Kibana (EFK) stack.</p>
+<p>This sample explains how to make Fluentd to push data to your own Elasticsearch instance.</p>
+<p><a href="../">Return to Logging samples</a> / <a href="../../">Return to Coherence Operator samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<p>This will ensure that Elasticsearch and Kibana will be installed and configured.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Install the Coherence Operator</li>
+</ol>
+<p>You must install the Coherence Operator using the instructions that enable log capture and point to the host and port of your existing Elasticsearch instance.</p>
+<p><em>Note</em>: If you have a running Coherence Operator, you should uninstall using the command <code>helm delete coherence-operator --purge</code>.</p>
+<p>Ensure you set the following:</p>
+<ul>
+<li>
+<p><code>elasticsearchEndpoint.host</code> to your Elasticsearch host.</p>
+</li>
+<li>
+<p><code>elasticsearchEndpoint.port</code> to your Elasticsearch port.</p>
+</li>
+</ul>
+<p><em>Note</em>: If your Elasticsearch host requires username and password, set the following:</p>
+<ul>
+<li>
+<p><code>elasticsearchEndpoint.user</code> to your Elasticsearch username.</p>
+</li>
+<li>
+<p><code>elasticsearchEndpoint.password</code> to your elasticsearch password.</p>
+</li>
+</ul>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --set imagePullSecrets=sample-coherence-secret \
+      --name coherence-operator \
+      --set logCaptureEnabled=true \
+      --set elasticsearchEndpoint.host=my-elastic-host \
+      --set elasticsearchEndpoint.port=my-elastic-port \
+      --set "targetNamespaces={sample-coherence-ns}" \
+      coherence/coherence-operator</code></p>
+<ol>
+<li>Verify that the Elasticsearch endpoint is set.</li>
+</ol>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   coherence-operator-856d5f8544-kgxgd   2/2     Running   0          8m</code>
+   <code>bash
+   $ kubectl logs coherence-operator-856d5f8544-kgxgd  -n sample-coherence-ns -c fluentd | grep -A3 'match coherence-operator'</code>
+   ```console</p>
+<p><match coherence-operator>
+    @type elasticsearch
+    host "my-elastic-host"
+    port my-elastic-port
+   ```</p>
+<p>The host and port value must match the values you supplied in the <code>helm install</code> command.</p>
+<ol>
+<li>Install the Coherence cluster</li>
+</ol>
+<p>The following additional options are set:</p>
+<ul>
+<li><code>--set logCaptureEnabled=true</code> - This uses the configuration of the operator for the Elasticsearch endpoint for Fluentd.</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>: The Coherence Operator provides the Elasticsearch host and port values to install Coherence.</p>
+</blockquote>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set clusterSize=3 \
+      --set cluster=storage-tier-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set logCaptureEnabled=true \
+      coherence/coherence</code></p>
+<p>After the installation completes, list the pods:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   <code>console
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   coherence-operator-7f596c6796-nns9n   2/2     Running   0          22m
+   storage-coherence-0                   2/2     Running   0          17m
+   storage-coherence-1                   2/2     Running   0          16m
+   storage-coherence-2                   2/2     Running   0          16m</code></p>
+<p>The <code>coherence-operator</code> and all the <code>coherence</code> pods have two containers. The second container is for Fluentd.</p>
+<p><code>bash
+   $ kubectl logs storage-coherence-0  -n sample-coherence-ns -c fluentd | grep -A3 'match coherence-cluster'
+    &lt;match coherence-cluster&gt;</code>
+    <code>console
+     @type elasticsearch
+     host "my-elastic-host"
+     port my-elastic-port</code></p>
+<p>The host and port values must match the values you provided to install the <code>coherence-operator</code>.</p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Use the following commands to delete the chart installed in this sample:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<p>Before starting another sample, ensure that all the pods are removed from previous sample.</p>
+<p>If you want to remove the <code>coherence-operator</code>, then use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-11 10:15:21
+-->

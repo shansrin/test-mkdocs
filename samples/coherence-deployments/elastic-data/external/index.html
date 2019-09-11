@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="../../../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Coherence Operator</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../../../js/highlight.pack.js"></script>
+    
+      <script src="../../../../js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../../../..';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Deploy Elastic Data Using External Volume Mapped to the Host", url: "#_top", children: [
+              {title: "Sample files", url: "#sample-files" },
+              {title: "Prerequisites", url: "#prerequisites" },
+              {title: "Installation Steps", url: "#installation-steps" },
+              {title: "Uninstall the Charts", url: "#uninstall-the-charts" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="../../../../search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Coherence Operator<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Home</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="quickstart/" class="wm-article-link wm-toc-text">Quick Start</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="user-guide/" class="wm-article-link wm-toc-text">User Guide</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="samples/" class="wm-article-link wm-toc-text">Samples</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="deploy-elastic-data-using-external-volume-mapped-to-the-host">Deploy Elastic Data Using External Volume Mapped to the Host</h1>
+<p>This sample shows how to create persistent volumes (PV), and then map the Elastic Data to be stored on these PV. This would allow for a specific size to be used for storing Elastic Data, rather than only relying on the size of the underlying default <code>/tmp/</code> directory.</p>
+<p>Refer to the <a href="https://docs.oracle.com/middleware/12213/coherence/COHDG/implementing-storage-and-backing-maps.htm#COHDG5496">Oracle Elastic Data Documentation</a>
+for more information about Elastic Data.</p>
+<p><a href="../">Return to Elastic Data samples</a> / <a href="../../">Return to Coherence Deployments samples</a> / <a href="../../../#list-of-samples">Return to samples</a></p>
+<h2 id="sample-files">Sample files</h2>
+<ul>
+<li>
+<p><a href="src/main/docker/Dockerfile">src/main/docker/Dockerfile</a> - Dockerfile for creating sidecar image from which the configuration will be read at pod startup</p>
+</li>
+<li>
+<p><a href="src/main/resources/conf/elastic-data-cache-config.xml">src/main/resources/conf/elastic-data-cache-config.xml</a> - Cache configuration for storage-tier</p>
+</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ensure that you have installed Coherence Operator by following the instructions <a href="../../../#install-the-coherence-operator">here</a>.</p>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol>
+<li>Change to the <code>samples/coherence-deployments/elastic-data/external</code> directory. Ensure that you have your maven build environment set for JDK8, and build the project.</li>
+</ol>
+<p><code>bash
+   $ mvn clean install -P docker</code></p>
+<p>This builds the docker image with the cache configuration files, with the name in the format, <code>elastic-data-sample-external:${version}</code>. For example,</p>
+<p><code>bash
+   elastic-data-sample-external:1.0.0-SNAPSHOT</code></p>
+<blockquote>
+<p><strong>Note:</strong> If you are running against a remote Kubernetes cluster, then you must
+push the above image to your repository accessible to that cluster. You must also
+prefix the image name in the <code>helm</code> command, as shown below.</p>
+</blockquote>
+<ol>
+<li>Install the Coherence cluster.</li>
+</ol>
+<p>You can use the following three options to specify <code>volumes</code>, <code>volumeMounts</code> &amp; <code>volumeClaimTemplates</code>:</p>
+<ul>
+<li>
+<p><code>--set store.volumes</code> - Defines extra volume mappings that will be added to the Coherence Pod</p>
+</li>
+<li>
+<p><code>--set store.volumeClaimTemplates</code> - Defines extra PVC mappings that will be added to the Coherence Pod</p>
+</li>
+<li>
+<p><code>--set store.volumeMounts</code> - Defines extra volume mounts to map to the additional volumes or PVC declared above in <code>store.volumes</code> and <code>store.volumeClaimTemplates</code></p>
+</li>
+</ul>
+<p>For this sample, we are going to use the YAML file, <a href="src/main/yaml/volumes.yaml">volumes.yaml</a> to specify hostPath volumes.</p>
+<blockquote>
+<p><strong>Note:</strong> You should set the values appropriately for your Kubernetes environment and needs.</p>
+</blockquote>
+<p>Also, set <code>--set store.javaOpts="-Dcoherence.flashjournal.dir=/elastic-data"</code> - to point Elastic data to the mount path.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>coherence.flashjournal.dir</code> option was only added in Coherence 12.2.1.4. Therefore, we must include
+an override file to define this so that it works in 12.2.1.3.x as well.</p>
+</blockquote>
+<p><code>bash
+   $ helm install \
+      --namespace sample-coherence-ns \
+      --name storage \
+      --set store.javaOpts="-Dcoherence.flashjournal.dir=/elastic-data" \
+      --set clusterSize=1 \
+      --set cluster=elastic-data-cluster \
+      --set imagePullSecrets=sample-coherence-secret \
+      --set store.cacheConfig=elastic-data-cache-config.xml \
+      --set store.overrideConfig=elastic-data-override.xml \
+      --set prometheusoperator.enabled=false \
+      --set logCaptureEnabled=false \
+      --set userArtifacts.image=elastic-data-sample-external:1.0.0-SNAPSHOT \
+      -f src/main/yaml/volumes.yaml \
+      coherence/coherence</code></p>
+<p>After installing, list the pods by running the following command:</p>
+<p><code>bash
+   $ kubectl get pods -n sample-coherence-ns</code>
+   All the three storage-coherence pods must be running and ready, as shown in the output:
+   <code>console
+   NAME                  READY   STATUS    RESTARTS   AGE
+   storage-coherence-0   1/1     Running   0          4m
+   storage-coherence-1   1/1     Running   0          2m
+   storage-coherence-2   1/1     Running   0          1m</code>
+3. Confirm the mounted volume.</p>
+<p><code>bash
+   $ kubectl exec -it storage-coherence-0   -n sample-coherence-ns -- bash -c df</code>
+   You should see your <code>/elastic-data</code> volume mounted.
+   <code>console
+   Filesystem     1K-blocks     Used Available Use% Mounted on
+   overlay         61252420 16809112  41302140  29% /
+   tmpfs              65536        0     65536   0% /dev
+   tmpfs            4334408        0   4334408   0% /sys/fs/cgroup
+   /dev/sda1       61252420 16809112  41302140  29% /logs
+   overlay          4334408      356   4334052   1% /elastic-data
+   shm                65536        0     65536   0% /dev/shm
+   tmpfs            4334408       12   4334396   1% /run/secrets/kubernetes.io/serviceaccount
+   tmpfs            4334408        0   4334408   0% /proc/acpi
+   tmpfs            4334408        0   4334408   0% /sys/firmware</code> <br />
+4. Add data to Elastic Data.</p>
+<p>a. Connect to the Coherence console to create a cache using <code>FlashJournal</code>:</p>
+<p><code>bash
+   $ kubectl exec -it --namespace sample-coherence-ns storage-coherence-0 bash /scripts/startCoherence.sh console</code>   </p>
+<p>At the <code>Map (?):</code> prompt, type <code>cache flash-01</code>.  This creates a cache in the service, <code>DistributedSchemeFlash</code>
+   which is a FlashJournal scheme.</p>
+<p>b. Use the following to add 100,000 objects of size 1024 bytes, starting at index 0, and using batches of 100.</p>
+<p>```bash
+   bulkput 100000 1024 0 100</p>
+<p>Mon Apr 15 07:37:03 GMT 2019: adding 100000 items (starting with #0) each 1024 bytes ...
+   Mon Apr 15 07:37:15 GMT 2019: done putting (11578ms, 8878KB/sec, 8637 items/sec)
+   ```</p>
+<p>At the prompt, type <code>size</code> and it should show 100000.</p>
+<p>Then, type <code>bye</code> to exit the <code>console</code>.</p>
+<ol>
+<li>Ensure that the Elastic Data FlashJournal files exist.</li>
+</ol>
+<p>Run the following command against one of the Coherence pods to list the files used by Elastic Data:</p>
+<p><code>bash
+   $ kubectl exec -it -n sample-coherence-ns storage-coherence-0 -- bash -c 'ls -l /elastic-data'</code>
+   <code>console
+   total 202496
+   -rw-r--r-- 1 root root 69468160 May  1 08:44 coh1207347469383108692.tmp
+   -rw-r--r-- 1 root root 68943872 May  1 08:44 coh5447980795344195354.tmp
+   -rw-r--r-- 1 root root 68943872 May  1 08:44 coh6857569664465911116.tmp</code></p>
+<p>Type <code>exit</code> to leave the <code>exec</code> session.</p>
+<h2 id="uninstall-the-charts">Uninstall the Charts</h2>
+<p>Run the following commands to delete the chart installed in this sample:</p>
+<pre><code class="bash">$ helm delete storage --purge
+</code></pre>
+
+<p>Before starting another sample, ensure that all  pods are removed from the previous sample. To remove <code>coherence-operator</code>, use the <code>helm delete</code> command.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-09-11 10:15:20
+-->
