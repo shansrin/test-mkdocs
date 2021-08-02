@@ -46,7 +46,7 @@
 
     <!-- library dependency versions -->
     <bedrock.version>5.0.10</bedrock.version>
-    <commons.compress.version>1.18</commons.compress.version>
+    <commons.compress.version>1.21</commons.compress.version>
     <hamcrest.version>1.3</hamcrest.version>
     <helidon.version>1.0.0</helidon.version>
     <glassfish.jmxmp.version>1.0-b01-ea</glassfish.jmxmp.version>
